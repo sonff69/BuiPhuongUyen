@@ -51,11 +51,13 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #ffffff;
         }
-        /* Completely Opaque Card over raw background video (No Transparency) */
+        /* Maximum Glassmorphism (Extremely transparent but perfectly legible) */
         .glass-card {
-            background: #121216; /* 100% Solid Color */
+            background: rgba(10, 10, 15, 0.15); /* 85% Transparent */
+            backdrop-filter: blur(24px); /* Strong blur to preserve contrast and legibility */
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 183, 202, 0.25);
-            box-shadow: 0 10px 40px -10px rgba(255, 183, 202, 0.15);
+            box-shadow: 0 10px 40px -10px rgba(255, 183, 202, 0.2);
         }
         /* Custom Cursor Trail (Pink Glow) */
         .cursor-trail {
@@ -82,6 +84,27 @@
             transform-style: preserve-3d;
             transition: transform 0.1s ease;
         }
+        
+        /* Equalizer Animation for Background Music */
+        @keyframes eq {
+            0%, 100% { height: 4px; }
+            50% { height: 14px; }
+        }
+        .eq-bar {
+            height: 4px;
+            animation: none;
+        }
+        .music-playing .eq-bar:nth-child(1) { animation: eq 0.8s ease-in-out infinite alternate; }
+        .music-playing .eq-bar:nth-child(2) { animation: eq 0.5s ease-in-out infinite alternate 0.2s; }
+        .music-playing .eq-bar:nth-child(3) { animation: eq 0.7s ease-in-out infinite alternate 0.4s; }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .music-playing .disc-spin {
+            animation: spin 3s linear infinite;
+        }
     </style>
 </head>
 <body class="bg-transparent text-slate-100 relative min-h-screen">
@@ -92,6 +115,25 @@
     <!-- BACKGROUND VIDEO WITH NO FILTER & NO OVERLAY -->
     <div class="fixed inset-0 w-full h-full -z-20 overflow-hidden">
         <video src="back.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+    </div>
+
+    <!-- BACKGROUND MUSIC AUDIO ELEMENT -->
+    <audio id="bg-music" src="Messi.mp3" loop></audio>
+
+    <!-- FLOATING MUSIC CONTROLLER -->
+    <div class="fixed bottom-6 left-6 z-50">
+        <button id="music-toggle" class="bg-slate-950/90 border border-pink-300/30 text-white px-4 py-3 rounded-full shadow-2xl flex items-center gap-3 backdrop-blur-md hover:scale-105 active:scale-95 transition-all group">
+            <div class="relative w-6 h-6 flex items-center justify-center">
+                <i id="music-icon" class="disc-spin fas fa-music text-pastelPink text-sm"></i>
+            </div>
+            <span class="text-xs font-black tracking-wider text-pink-100 uppercase hidden md:inline">Messi.mp3</span>
+            <!-- Equalizer bar graphics -->
+            <div id="equalizer" class="flex items-end gap-0.5 h-3.5 w-4 overflow-hidden">
+                <span class="eq-bar w-0.5 bg-pastelPink rounded-full"></span>
+                <span class="eq-bar w-0.5 bg-pastelPink rounded-full"></span>
+                <span class="eq-bar w-0.5 bg-pastelPink rounded-full"></span>
+            </div>
+        </button>
     </div>
 
     <!-- HEADER / NAVIGATION -->
@@ -122,8 +164,8 @@
     <section id="about" class="min-h-[85vh] flex items-center justify-center py-12 px-4 relative overflow-hidden">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
             
-            <!-- Left Side: Interactive Personal Introduction (100% Opaque Solid Box) -->
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left bg-gradient-to-b from-[#121216] to-[#08080a] p-8 rounded-3xl border border-pink-300/20 shadow-2xl">
+            <!-- Left Side: Interactive Personal Introduction (Extreme Transparency) -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left bg-slateBlack/15 backdrop-blur-2xl p-8 rounded-3xl border border-pink-300/20 shadow-2xl">
                 <div class="inline-flex items-center gap-2 bg-pink-950/40 border border-pink-300/30 shadow-sm px-4 py-1.5 rounded-full text-xs font-bold text-pastelPink">
                     <i class="fas fa-medal text-pastelPink"></i> KIẾN TẠO KỶ NGUYÊN SỐ
                 </div>
@@ -234,8 +276,8 @@
     <!-- SECTION 2: THE INTERACTIVE TACTICAL BOARD (PORTFOLIO MATCHES) -->
     <section id="tactical-pitch" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
         
-        <!-- Section Header -->
-        <div class="text-center space-y-3 bg-gradient-to-b from-[#121216] to-[#08080a] p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
+        <!-- Section Header (Transparent Header box) -->
+        <div class="text-center space-y-3 bg-gradient-to-b from-[#121216]/20 to-[#08080a]/20 backdrop-blur-2xl p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
             <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">SƠ ĐỒ CHIẾN THUẬT BÀI TẬP</h2>
             <div class="w-24 h-1.5 bg-gradient-to-r from-pink-400 to-pink-300 mx-auto rounded-full"></div>
             <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base">
@@ -264,7 +306,7 @@
                 <h3 class="text-sm font-bold text-slate-400 mb-4 uppercase tracking-wider text-center">Bấm vào vị trí trên sân</h3>
                 
                 <!-- Soccer Pitch Visual Grid -->
-                <div class="aspect-[3/4] w-full bg-gradient-to-b from-[#0e0e12] to-[#1e1015] rounded-2xl relative p-4 border border-pink-300/20 shadow-inner overflow-hidden">
+                <div class="aspect-[3/4] w-full bg-gradient-to-b from-[#0e0e12]/40 to-[#1e1015]/40 backdrop-blur-md rounded-2xl relative p-4 border border-pink-300/20 shadow-inner overflow-hidden">
                     <!-- Pitch Grass lines -->
                     <div class="absolute inset-x-0 h-1/6 top-0 bg-pink-500/5"></div>
                     <div class="absolute inset-x-0 h-1/6 top-2/6 bg-pink-500/5"></div>
@@ -316,7 +358,7 @@
                 </div>
             </div>
 
-            <!-- Right Panel: Detailed Exercise Viewer Card (7 cols - 100% Solid Box) -->
+            <!-- Right Panel: Detailed Exercise Viewer Card (7 cols - Extreme Transparency) -->
             <div id="match-viewer" class="lg:col-span-7 glass-card rounded-[2rem] p-6 lg:p-8 border border-pink-300/20 shadow-2xl min-h-[500px] flex flex-col justify-between">
                 
                 <!-- Display content dynamically loaded here -->
@@ -344,8 +386,8 @@
 
     <!-- SECTION 3: THE GOLDEN TROPHY CABINET -->
     <section id="trophy" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
-        <!-- Section Header -->
-        <div class="text-center space-y-3 bg-gradient-to-b from-[#121216] to-[#08080a] p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
+        <!-- Section Header (Transparent Header box) -->
+        <div class="text-center space-y-3 bg-gradient-to-b from-[#121216]/20 to-[#08080a]/20 backdrop-blur-2xl p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
             <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">BẢNG VÀNG THÀNH TÍCH</h2>
             <div class="w-24 h-1.5 bg-gradient-to-r from-pink-400 to-pink-300 mx-auto rounded-full"></div>
             <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base">
@@ -408,7 +450,7 @@
     </section>
 
     <!-- SECTION 4: MY VALUES & PHILOSOPHY -->
-    <section class="py-16 px-4 bg-slate-950 text-white relative overflow-hidden">
+    <section class="py-16 px-4 bg-slate-950/90 text-white relative overflow-hidden">
         <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
             <i class="fas fa-quote-left text-4xl text-pastelPink opacity-40"></i>
             <blockquote class="font-serif italic text-xl sm:text-2xl leading-relaxed text-slate-200">
@@ -564,6 +606,26 @@
             });
         }
 
+        // Background music toggle handler
+        const music = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicIcon = document.getElementById('music-icon');
+
+        musicToggle.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().then(() => {
+                    musicToggle.classList.add('music-playing');
+                    musicIcon.className = 'disc-spin fas fa-compact-disc text-pastelPink text-sm';
+                }).catch(err => {
+                    console.log("Autoplay prevented:", err);
+                });
+            } else {
+                music.pause();
+                musicToggle.classList.remove('music-playing');
+                musicIcon.className = 'fas fa-music text-pastelPink text-sm';
+            }
+        });
+
         // Active state rendering function for the selection on the pitch
         function updatePitchHighlight(id) {
             document.querySelectorAll('.pitch-btn').forEach(btn => {
@@ -625,6 +687,12 @@
         function prevMatch() {
             let id = currentMatchId - 1;
             if (id < 1) id = 6;
+            selectMatch(id);
+        }
+
+        function nextMatch() {
+            let id = currentMatchId + 1;
+            if (id > 6) id = 1;
             selectMatch(id);
         }
 
