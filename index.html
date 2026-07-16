@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bùi Phương Uyên Portfolio</title>
+    <title>Bùi Phương Uyên - Digital Portfolio (Inter Miami Pink & Black Edition)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -53,8 +53,8 @@
         }
         /* Ultra Glassmorphism */
         .glass-card {
-            background: rgba(12, 12, 16, 0.2); 
-            backdrop-filter: blur(32px);
+            background: rgba(12, 12, 16, 0.15); /* 85% Transparent */
+            backdrop-filter: blur(32px); /* Strong blur to preserve contrast and legibility */
             -webkit-backdrop-filter: blur(32px);
             border: 1px solid rgba(255, 183, 202, 0.18);
             box-shadow: 0 15px 50px -15px rgba(255, 183, 202, 0.08);
@@ -766,7 +766,7 @@
                     <div class="space-y-4 text-xs text-slate-300">
                         <h4 class="text-sm font-bold text-white uppercase">Quy trình phối hợp 3 bước với các công cụ AI:</h4>
                         <ol class="space-y-3 list-decimal list-inside pl-1 leading-relaxed text-[11px]">
-                            <li><strong>Bước 1: Xây dựng nội dung (ChatGPT):</strong> Tớ viết lệnh: <em>"Phác thảo nội dung infographic về biến đổi khí hậu tại Việt Nam gồm 5 phần chính."</em> ChatGPT nhanh chóng đề xuất 5 mục logic và cung cấp các số liệu nhiệt độ (tăng 0.5–0.8 độ C) giúp tớ có căn cứ ban đầu để đối chiếu.</li>
+                            <li><strong>Bước 1: Xây dung nội dung (ChatGPT):</strong> Tớ viết lệnh: <em>"Phác thảo nội dung infographic về biến đổi khí hậu tại Việt Nam gồm 5 phần chính."</em> ChatGPT nhanh chóng đề xuất 5 mục logic và cung cấp các số liệu nhiệt độ (tăng 0.5–0.8 độ C) giúp tớ có căn cứ ban đầu để đối chiếu.</li>
                             <li><strong>Bước 2: Phác thảo hình ảnh (123RF AI / Bing Image):</strong> Viết lệnh phác thảo ý tưởng để tạo ra các bản nháp (draft) về khối màu sắc, icon phẳng hiện đại để dễ dàng hình dung thiết kế tổng thể.</li>
                             <li><strong>Bước 3: Thiết kế hoàn thiện (Canva):</strong> Tớ tìm kiếm từ khóa "Infographic environment" và "Climate change" trên Canva để lấy khung xương phù hợp, sau đó thay thế toàn bộ văn bản gốc bằng nội dung tiếng Việt tớ tự tay biên tập.</li>
                         </ol>
@@ -881,6 +881,77 @@
         let currentMatchId = 1;
         let currentSubTab = 'obj';
 
+        // Auto play music when user interacts
+        function playMusic() {
+            const music = document.getElementById('bg-music');
+            const musicToggle = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            
+            music.play().then(() => {
+                musicToggle.classList.add('music-playing');
+                musicIcon.className = 'disc-spin fas fa-compact-disc text-pastelPink text-sm';
+                removeAutoplayListeners();
+            }).catch(err => {
+                console.log("Autoplay blocked. Waiting for interaction...");
+            });
+        }
+
+        function removeAutoplayListeners() {
+            document.removeEventListener('click', playMusic);
+            document.removeEventListener('scroll', playMusic);
+            document.removeEventListener('touchstart', playMusic);
+            document.removeEventListener('mousemove', playMusic);
+        }
+
+        // Slow down background video playback speed to make it calm and cinematic
+        window.addEventListener('load', () => {
+            const bgVideo = document.getElementById('bg-video');
+            if (bgVideo) {
+                bgVideo.playbackRate = 0.5; // Slow down to 50% speed
+            }
+            selectMatch(1);
+            
+            // Try autoplay
+            playMusic();
+            
+            // Add fallback triggers for modern browsers
+            document.addEventListener('click', playMusic);
+            document.addEventListener('scroll', playMusic);
+            document.addEventListener('touchstart', playMusic);
+            document.addEventListener('mousemove', playMusic);
+
+            // Subtle scroll reveals using GSAP
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.from("#about", { opacity: 0, y: 50, duration: 1 });
+            gsap.from("#portfolio-goals", {
+                scrollTrigger: {
+                    trigger: "#portfolio-goals",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
+            gsap.from("#tactical-pitch", {
+                scrollTrigger: {
+                    trigger: "#tactical-pitch",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
+            gsap.from("#summary", {
+                scrollTrigger: {
+                    trigger: "#summary",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
+        });
+
         // Custom Cursor Trail tracking movement (Pink Theme)
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
@@ -915,57 +986,6 @@
                 cursor.style.borderColor = '#ffb7ca';
             });
         }
-
-        // Background music auto-play control logic
-        const music = document.getElementById('bg-music');
-        const musicToggle = document.getElementById('music-toggle');
-        const musicIcon = document.getElementById('music-icon');
-
-        function startMusic() {
-            music.play().then(() => {
-                musicToggle.classList.add('music-playing');
-                musicIcon.className = 'disc-spin fas fa-compact-disc text-pastelPink text-sm';
-                // Clean up interaction listeners once playing
-                removeInteractionListeners();
-            }).catch(err => {
-                console.log("Autoplay blocked by browser. Listening for user interactions.", err);
-            });
-        }
-
-        function handleFirstInteraction() {
-            startMusic();
-        }
-
-        function addInteractionListeners() {
-            document.addEventListener('click', handleFirstInteraction, { once: true });
-            document.addEventListener('keydown', handleFirstInteraction, { once: true });
-            document.addEventListener('touchstart', handleFirstInteraction, { once: true });
-            document.addEventListener('scroll', handleFirstInteraction, { once: true });
-        }
-
-        function removeInteractionListeners() {
-            document.removeEventListener('click', handleFirstInteraction);
-            document.removeEventListener('keydown', handleFirstInteraction);
-            document.removeEventListener('touchstart', handleFirstInteraction);
-            document.removeEventListener('scroll', handleFirstInteraction);
-        }
-
-        // Toggle button logic
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); // prevent triggering document interaction handlers
-            if (music.paused) {
-                music.play().then(() => {
-                    musicToggle.classList.add('music-playing');
-                    musicIcon.className = 'disc-spin fas fa-compact-disc text-pastelPink text-sm';
-                    removeInteractionListeners();
-                });
-            } else {
-                music.pause();
-                musicToggle.classList.remove('music-playing');
-                musicIcon.className = 'fas fa-music text-pastelPink text-sm';
-                removeInteractionListeners();
-            }
-        });
 
         // Active state rendering function for the selection on the pitch
         function updatePitchHighlight(id) {
@@ -1096,7 +1116,7 @@
                         <p class="text-green-400"><strong>[Prompt R-I-S-C nâng cao]</strong> "Bạn là trợ lý nghiên cứu khoa học. Hãy tóm tắt bài báo sau theo cấu trúc: 1. Mục tiêu; 2. Giả thuyết; 3. Kết quả; 4. Hạn chế..."</p>
                         <p class="text-slate-300 mt-1"><strong>[AI phản hồi]:</strong></p>
                         <p class="text-slate-400">- <strong>Mục tiêu:</strong> Đánh giá tác động định lượng của CPTPP, EVFTA đến thu hút vốn FDI vào VN.<br>- <strong>Giả thuyết:</strong> Có mối liên hệ tuyến tính thuận chiều giữa quy mô FTA thế hệ mới và tỷ lệ vốn giải ngân thực tế.<br>- <strong>Kết quả then chốt:</strong> Tăng trưởng 15% dòng vốn FDI sau 2 năm thực thi EVFTA...<br>- <strong>Hạn chế:</strong> Chưa xét đến biến ngoại ngoại cảnh khác như lạm phát toàn cầu...</p>
-                        <span class="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded block mt-2 w-max font-bold">Đánh giá: Cấu trúc rõ ràng, thông tin sắc nét, tính hàn lâm cao.</span>
+                        <span class="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded block mt-2 w-max font-bold">Đánh giá: Cấu trúc rõ ràng, thông tin sắc nét, tính học thuật cao.</span>
                     `;
                 }
             } else if (task === "concept") {
@@ -1126,7 +1146,7 @@
                         <p class="text-green-400"><strong>[Prompt Nâng cao]</strong> "Bạn là chuyên gia thiết kế đề thi. Hãy tạo 5 câu hỏi trắc nghiệm mức độ Vận dụng cao chủ đề Thuế và Cân bằng thị trường. Giải thích logic cung - cầu..."</p>
                         <p class="text-slate-300 mt-1"><strong>[AI phản hồi]:</strong></p>
                         <p class="text-slate-400"><strong>Câu 1:</strong> Khi chính phủ đánh thuế t đồng/sản phẩm lên nhà sản xuất trong một thị trường có cầu hoàn toàn co giãn và cung co giãn có hạn, ai gánh chịu thuế?<br>A. Nhà sản xuất gánh chịu toàn bộ.<br>B. Người tiêu dùng gánh chịu toàn bộ...<br><strong>Giải thích logic cung - cầu:</strong> Vì cầu hoàn toàn co giãn, người tiêu dùng cực kỳ nhạy cảm với giá. Nhà sản xuất không thể tăng giá nên bắt buộc phải tự gánh chịu toàn bộ khoản thuế này...</p>
-                        <span class="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded block mt-2 w-max font-bold">Đánh giá: Tính phân loại học thuật đỉnh cao, phục vụ ôn tập chất lượng.</span>
+                        <span class="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded block mt-2 w-max font-bold">Đánh giá: Tính phân loại học thuật tối ưu, phục vụ ôn tập chất lượng.</span>
                     `;
                 }
             }
@@ -1140,7 +1160,7 @@
                     <p class="text-red-400 font-bold">⚠️ Mục 1: Dữ liệu đỏ khí hậu Việt Nam</p>
                     <p class="mt-1"><strong>Nhiệt độ:</strong> Trung bình năm tăng 0.5 - 0.7°C trong vòng 50 năm qua.</p>
                     <p><strong>Nước biển dâng:</strong> Đo đạc thực tế dâng khoảng 20cm tại vùng ven biển.</p>
-                    <p class="text-pink-300"><strong>Đóng góp cá nhân của tớ:</strong> Tớ đã so sánh, đối chiếu nghiêm ngặt số liệu với báo cáo khí hậu quốc gia của Bộ Tài nguyên Môi trường để bảo đảm tính chuẩn xác khoa học thay vì rập khuôn số liệu AI đưa ra.</p>
+                    <p class="text-pink-300"><strong>Đóng góp cá nhân của tớ:</strong> Tớ đã so sánh, đối chiếu nghiêm ngặt số liệu với báo cáo khí hậu quốc gia của Bộ Tài nguyên Môi trường để bảo đảm tính chuẩn xác khoa học thay vị rập khuôn số liệu AI đưa ra.</p>
                 `;
             } else if (id === 3) {
                 res.innerHTML = `
