@@ -1,1656 +1,666 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bùi Phương Uyên - Digital Portfolio</title>
-    <!-- Google Fonts & Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Bùi Phương Uyên - Digital Portfolio (Lionel Messi Style)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <!-- GSAP (GreenSock) for high-end animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        stadiumBlue: '#0052cc',
+                        stadiumSky: '#00a2ff',
+                        championGold: '#d4af37',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #0F172A;
-            --accent-gold: #D4AF37;
-            --accent-blue: #3B82F6;
-            --accent-cyan: #06B6D4;
-            --text-light: #F8FAFC;
-            --text-muted: #94A3B8;
-            --glass-bg: rgba(15, 23, 42, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --pitch-green: rgba(16, 185, 129, 0.15);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #020617;
-            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
         }
-
-        /* Background Video Container */
-        .video-bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            overflow: hidden;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        .bg-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* No filters applied as requested */
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
-
-        /* Overlay to keep text perfectly readable */
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.5) 0%, rgba(2, 6, 23, 0.9) 100%);
-            z-index: -1;
+        ::-webkit-scrollbar-thumb {
+            background: #0052cc;
+            border-radius: 4px;
         }
-
-        /* Header & Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(2, 6, 23, 0.8);
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Custom Cursor Trail */
+        .cursor-trail {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s, border-color 0.2s;
+            display: none;
         }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            background: linear-gradient(to right, #ffffff, var(--accent-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        @media (min-width: 1024px) {
+            .cursor-trail { display: block; }
         }
-
-        .logo span {
-            color: var(--accent-gold);
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent-gold);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-link:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Premium GG Drive CTA Button */
-        .btn-drive {
-            background: linear-gradient(135deg, var(--accent-gold) 0%, #b28d22 100%);
-            color: #000000 !important;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-drive:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
-        }
-
-        /* Hero Section */
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 20px 60px 20px;
-            position: relative;
-        }
-
-        .hero-wrapper {
-            max-width: 1100px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .hero-text h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-        }
-
-        .hero-text h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            background: linear-gradient(to bottom, #ffffff 60%, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-desc {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            max-width: 550px;
-        }
-
-        .hero-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 35px;
-        }
-
-        .badge-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-light);
-        }
-
-        .badge-item i {
-            color: var(--accent-gold);
-        }
-
-        /* EA FC Inspired Player Card */
-        .player-card-container {
-            display: flex;
-            justify-content: center;
+        /* FUT Card Tilt Effect container */
+        .fut-card-container {
             perspective: 1000px;
         }
-
-        .player-card {
-            width: 320px;
-            height: 460px;
-            background: linear-gradient(145deg, rgba(20, 24, 38, 0.9) 0%, rgba(10, 12, 18, 0.95) 100%);
-            border: 2px solid var(--accent-gold);
-            border-radius: 18px;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
-            overflow: hidden;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-        }
-
-        .player-card:hover {
-            transform: rotateY(5deg) rotateX(5deg) scale(1.03);
-            box-shadow: 0 20px 45px rgba(212, 175, 55, 0.3);
-        }
-
-        /* Gold card geometric patterns */
-        .player-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 45%, rgba(212, 175, 55, 0.1) 50%, transparent 55%);
-            animation: cardShine 6s infinite linear;
-        }
-
-        @keyframes cardShine {
-            0% { transform: translate(-30%, -30%) rotate(0deg); }
-            100% { transform: translate(30%, 30%) rotate(360deg); }
-        }
-
-        .card-header-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            z-index: 1;
-        }
-
-        .overall-rating {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .rating-num {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            line-height: 1;
-        }
-
-        .player-position {
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--text-light);
-        }
-
-        .club-logo {
-            font-size: 1.8rem;
-            color: var(--accent-blue);
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-        }
-
-        .avatar-frame {
-            width: 170px;
-            height: 170px;
-            margin: 10px auto;
-            border-radius: 50%;
-            border: 3px solid var(--accent-gold);
-            padding: 5px;
-            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 80%);
-            z-index: 1;
-            position: relative;
-        }
-
-        .player-avatar {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            background-color: rgba(15, 23, 42, 0.8);
-        }
-
-        .player-details {
-            text-align: center;
-            margin-top: 15px;
-            z-index: 1;
-        }
-
-        .player-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            color: #ffffff;
-        }
-
-        .player-info-text {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        .player-attributes {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 15px;
-            z-index: 1;
-        }
-
-        .attr-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .attr-val {
-            font-weight: 700;
-            color: var(--accent-gold);
-            font-size: 1rem;
-        }
-
-        .attr-lbl {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* General Section Layout */
-        section {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            background: linear-gradient(to right, #ffffff, var(--accent-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .section-title p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Glassmorphic Panel Base */
-        .glass-panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            backdrop-filter: blur(16px);
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        /* About Section */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .about-text p {
-            margin-bottom: 20px;
-            color: var(--text-light);
-            font-size: 1.05rem;
-        }
-
-        .about-text strong {
-            color: var(--accent-gold);
-        }
-
-        .quote-box {
-            border-left: 3px solid var(--accent-gold);
-            padding-left: 20px;
-            font-style: italic;
-            color: var(--text-muted);
-            margin: 25px 0;
-            background: rgba(212, 175, 55, 0.05);
-            padding-top: 15px;
-            padding-bottom: 15px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .metric-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .metric-num {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            margin-bottom: 5px;
-        }
-
-        .metric-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 5px;
-        }
-
-        .metric-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        /* Tactical Board Section */
-        .tactical-intro {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 40px auto;
-        }
-
-        .tactical-intro p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            margin-bottom: 25px;
-        }
-
-        .tactical-board-grid {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 30px;
-            align-items: stretch;
-        }
-
-        /* Football Pitch Concept */
-        .football-pitch {
-            background: radial-gradient(circle, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.98) 100%);
-            border: 2px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            height: 600px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 40px 20px;
-            box-shadow: inset 0 0 50px rgba(59, 130, 246, 0.15);
-        }
-
-        /* Traditional tactical pitch lines */
-        .football-pitch::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.08);
-            z-index: 1;
-        }
-
-        .pitch-center-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 140px;
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            z-index: 1;
-        }
-
-        .pitch-penalty-area-top {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 240px;
-            height: 90px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
-            border-left: 2px solid rgba(255, 255, 255, 0.08);
-            border-right: 2px solid rgba(255, 255, 255, 0.08);
-            z-index: 1;
-        }
-
-        .pitch-penalty-area-bottom {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 240px;
-            height: 90px;
-            border-top: 2px solid rgba(255, 255, 255, 0.08);
-            border-left: 2px solid rgba(255, 255, 255, 0.08);
-            border-right: 2px solid rgba(255, 255, 255, 0.08);
-            z-index: 1;
-        }
-
-        /* Player node icons on Pitch */
-        .tactical-node {
-            position: absolute;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .tactical-node:hover {
-            transform: scale(1.15);
-        }
-
-        .node-ring {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary);
-            border: 2.5px solid var(--accent-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.1rem;
-            color: var(--accent-gold);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .tactical-node.active .node-ring {
-            background: var(--accent-gold);
-            color: #000000;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
-            transform: scale(1.1);
-        }
-
-        .node-pulse {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--accent-gold);
-            animation: nodePulse 2s infinite ease-out;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        @keyframes nodePulse {
-            0% { transform: scale(1); opacity: 0.6; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        .node-label {
-            margin-top: 6px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-light);
-            background: rgba(2, 6, 23, 0.8);
-            padding: 3px 8px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .tactical-node.active .node-label {
-            color: var(--accent-gold);
-            border-color: rgba(212, 175, 55, 0.2);
-        }
-
-        /* Specific positions corresponding to Assignments 1-6 */
-        /* GK: Bài 1 - Quản lý tệp tin */
-        .node-gk { bottom: 10%; left: 50%; transform: translateX(-50%); }
-        /* LCB: Bài 2 - Đánh giá FTA & FDI */
-        .node-cb { bottom: 25%; left: 50%; transform: translateX(-50%); }
-        /* LCM: Bài 3 - Prompt Engineering */
-        .node-cm { top: 50%; left: 30%; transform: translate(-50%, -50%); }
-        /* RCM: Bài 4 - Group Collaboration */
-        .node-cam { top: 50%; left: 70%; transform: translate(-50%, -50%); }
-        /* RW: Bài 5 - AI Content Creation */
-        .node-rw { top: 25%; left: 80%; transform: translateX(-50%); }
-        /* CF: Bài 6 - Responsible AI */
-        .node-cf { top: 15%; left: 50%; transform: translateX(-50%); }
-
-        /* Tactical Details Panel */
-        .tactical-details {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .assignment-display {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 30px;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            animation: panelFadeIn 0.5s ease-out forwards;
-        }
-
-        .assignment-display.active {
-            display: flex;
-        }
-
-        @keyframes panelFadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .assignment-chapter {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .assignment-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
-
-        .assignment-tactics {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: var(--accent-blue);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            width: fit-content;
-            margin-bottom: 20px;
-        }
-
-        .assignment-body {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .assignment-body::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .assignment-body::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-        }
-
-        .assignment-body p {
-            margin-bottom: 15px;
-            color: var(--text-muted);
-        }
-
-        .assignment-section-title {
-            font-weight: 700;
-            color: #ffffff;
-            margin: 15px 0 8px 0;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .assignment-section-title i {
-            color: var(--accent-gold);
-        }
-
-        .assignment-list {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 15px;
-        }
-
-        .assignment-list li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .assignment-list li::before {
-            content: '➔';
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: var(--accent-gold);
-            font-size: 0.8rem;
-        }
-
-        .assignment-highlight-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-
-        .assignment-highlight-box h4 {
-            color: var(--accent-gold);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .table-simple {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.82rem;
-        }
-
-        .table-simple th, .table-simple td {
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 8px;
-            text-align: left;
-        }
-
-        .table-simple th {
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-        }
-
-        .pill {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .pill-gold { background: rgba(212, 175, 55, 0.15); color: var(--accent-gold); border: 1px solid rgba(212, 175, 55, 0.3); }
-        .pill-blue { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.3); }
-
-        /* General Portfolio Reflection Section */
-        .reflection-content h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .reflection-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 40px;
-            margin-top: 30px;
-        }
-
-        .reflection-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .reflection-card:hover {
-            border-color: rgba(212, 175, 55, 0.2);
-            transform: translateY(-3px);
-        }
-
-        .reflection-card h4 {
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .reflection-card h4 i {
-            color: var(--accent-gold);
-        }
-
-        .reflection-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Skills Matrix */
-        .skills-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .skill-progress-bar {
-            background: rgba(255, 255, 255, 0.05);
-            height: 8px;
-            border-radius: 4px;
-            width: 100%;
-            overflow: hidden;
-            margin-top: 8px;
-            position: relative;
-        }
-
-        .skill-fill {
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
-            height: 100%;
-            border-radius: 4px;
-            width: 0;
-            transition: width 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
-        }
-
-        .skill-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        /* Mid-Section CTA Drive Card */
-        .cta-drive-box {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
-            border: 1px solid var(--accent-gold);
-            border-radius: 16px;
-            padding: 40px;
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 60px;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-drive-box::before {
-            content: '10';
-            position: absolute;
-            right: -20px;
-            bottom: -50px;
-            font-size: 12rem;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            color: rgba(212, 175, 55, 0.03);
-            line-height: 1;
-            pointer-events: none;
-        }
-
-        .cta-drive-box h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 12px;
-        }
-
-        .cta-drive-box p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 25px auto;
-            font-size: 1rem;
-        }
-
-        .cta-drive-box .btn-drive {
-            margin: 0 auto;
-            width: fit-content;
-            padding: 12px 28px;
-            font-size: 0.95rem;
-        }
-
-        /* Footer */
-        footer {
-            background: #020617;
-            padding: 40px 20px;
-            text-align: center;
-            border-top: 1px solid var(--glass-border);
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .footer-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 1.6rem;
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-        }
-
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .social-link {
-            color: var(--text-muted);
-            font-size: 1.3rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-link:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Tactical Board Mobile Layout & Fallback */
-        .mobile-tactical-selector {
-            display: none;
-            width: 100%;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        .mobile-tab-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 20px;
-            white-space: nowrap;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-tab-btn.active {
-            background: var(--accent-gold);
-            color: #000000;
-            border-color: var(--accent-gold);
-        }
-
-        /* Responsive Breakpoints */
-        @media (max-width: 968px) {
-            .hero-wrapper {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                text-align: center;
-            }
-
-            .hero-text h1 {
-                font-size: 2.8rem;
-            }
-
-            .hero-desc {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-badges {
-                justify-content: center;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tactical-board-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .reflection-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .nav-menu {
-                display: none; /* simple mobile bypass */
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            .football-pitch {
-                display: none; /* Hide interactive pitch on small mobile, use custom mobile tab buttons */
-            }
-
-            .mobile-tactical-selector {
-                display: flex;
-            }
-
-            .glass-panel {
-                padding: 20px;
-            }
-
-            .overall-rating .rating-num {
-                font-size: 2.2rem;
-            }
-
-            .player-card {
-                width: 280px;
-                height: 420px;
-            }
-
-            .avatar-frame {
-                width: 140px;
-                height: 140px;
-            }
+        .fut-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 relative min-h-screen">
 
-    <!-- Fixed Background Video -->
-    <div class="video-bg-container">
-        <video class="bg-video" autoplay muted loop playsinline>
-            <source src="back.mp4" type="video/mp4">
-        </video>
+    <!-- Custom Cursor Trail -->
+    <div id="cursor" class="cursor-trail"></div>
+
+    <!-- BACKGROUND VIDEO WITH STATIC CONTRAST OVERLAY (No Filter on Video) -->
+    <div class="fixed inset-0 w-full h-full -z-20 overflow-hidden">
+        <video src="back.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
     </div>
-    <div class="video-overlay"></div>
+    <!-- Clean, bright overlay to maintain perfect readability of the light-themed website -->
+    <div class="fixed inset-0 bg-white/75 backdrop-blur-[2px] -z-10"></div>
 
-    <!-- Header & Navigation -->
-    <header>
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <i class="fa-solid fa-crown"></i>UYÊN<span>10</span>
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 transition-all duration-300 glass-card px-4 lg:px-8 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2">
+                <span class="font-serif text-2xl lg:text-3xl font-bold italic tracking-wider text-stadiumBlue">
+                    UYÊN <span class="text-championGold">BÙI</span>
+                </span>
+                <span class="bg-stadiumBlue text-white text-xs px-2 py-0.5 rounded-full font-bold">25051076</span>
             </a>
-            <ul class="nav-menu">
-                <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
-                <li><a href="#tactical-projects" class="nav-link">Chiến Thuật Học Tập</a></li>
-                <li><a href="#reflection" class="nav-link">Tổng Kết</a></li>
-                <li>
-                    <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" target="_blank" class="btn-drive">
-                        <i class="fa-brands fa-google-drive"></i>Xem bài tập trên GG drive
-                    </a>
-                </li>
-            </ul>
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm">
+                <a href="#about" class="hover:text-stadiumBlue transition-colors">Về tôi</a>
+                <a href="#tactical-pitch" class="hover:text-stadiumBlue transition-colors">Sơ đồ chiến thuật</a>
+                <a href="#trophy" class="hover:text-stadiumBlue transition-colors">Kỷ lục cá nhân</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" 
+                   target="_blank" 
+                   class="bg-gradient-to-r from-stadiumBlue to-stadiumSky hover:from-championGold hover:to-amber-500 text-white px-4 py-2 rounded-full font-bold text-xs lg:text-sm shadow-md hover:shadow-lg hover:scale-105 transition-all flex items-center gap-2">
+                    <i class="fab fa-google-drive"></i> Xem bài tập trên GG drive
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero">
-        <div class="hero-wrapper">
-            <div class="hero-text">
-                <h2>CHÀO MỪNG BẠN ĐẾN VỚI DIGITAL PORTFOLIO CỦA MÌNH</h2>
-                <h1>BÙI PHƯƠNG UYÊN</h1>
-                <p class="hero-desc">
-                    Sinh viên ngành <strong>Kinh tế Quốc tế</strong> tại Đại học Kinh tế - ĐHQGHN. Một người theo đuổi trường phái tư duy chiến thuật nhạy bén, kết hợp kiến thức kinh tế toàn cầu và sức mạnh chuyển đổi của Công nghệ số & Trí tuệ Nhân tạo.
-                </p>
-                <div class="hero-badges">
-                    <div class="badge-item"><i class="fa-solid fa-graduation-cap"></i>Đại học Kinh tế - ĐHQGHN</div>
-                    <div class="badge-item"><i class="fa-solid fa-chart-line"></i>Kinh tế Quốc tế</div>
-                    <div class="badge-item"><i class="fa-solid fa-brain"></i>AI & Digital Tech</div>
-                </div>
-            </div>
-
-            <!-- EA Sports FC / Ultimate Team Card representation -->
-            <div class="player-card-container">
-                <div class="player-card">
-                    <div class="card-header-stats">
-                        <div class="overall-rating">
-                            <span class="rating-num">10</span>
-                            <span class="player-position">ECO</span>
-                        </div>
-                        <div class="club-logo">
-                            <i class="fa-solid fa-award"></i>
-                        </div>
-                    </div>
-                    <div class="avatar-frame">
-                        <img src="Hình 1.jpg" alt="Bùi Phương Uyên" class="player-avatar">
-                    </div>
-                    <div class="player-details">
-                        <h3 class="player-name">Phương Uyên</h3>
-                        <p class="player-info-text">ID: 25051076 • UEB - VNU</p>
-                    </div>
-                    <div class="player-attributes">
-                        <div class="attr-box">
-                            <span class="attr-val">96</span>
-                            <span class="attr-lbl">ANA</span> <!-- Analysis -->
-                        </div>
-                        <div class="attr-box">
-                            <span class="attr-val">95</span>
-                            <span class="attr-lbl">AI</span> <!-- Tech/AI -->
-                        </div>
-                        <div class="attr-box">
-                            <span class="attr-val">98</span>
-                            <span class="attr-lbl">RES</span> <!-- Responsibility -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about">
-        <div class="section-title">
-            <h2>NHÃN QUAN CHIẾN THUẬT</h2>
-            <p>Khi tư duy kinh tế toàn cầu bổ trợ cho sức mạnh công nghệ số</p>
-        </div>
-
-        <div class="glass-panel about-grid">
-            <div class="about-text">
-                <p>
-                    Chào bạn! Mình là <strong>Bùi Phương Uyên</strong>. Trong thế giới bóng đá, Lionel Messi làm chủ trận đấu không chỉ bằng tốc độ mà bằng một nhãn quan chiến thuật phi thường – khả năng phân tích không gian và đưa ra những quyết định kiến tạo chỉ trong tích tắc. 
-                </p>
-                <p>
-                    Là một sinh viên ngành <strong>Kinh tế Quốc tế</strong>, mình nhận thấy sự tương đồng sâu sắc. Dòng chảy thương mại toàn cầu, các Hiệp định FTA hay nguồn vốn FDI chính là sân bóng lớn. Để làm chủ nó, công nghệ số và trí tuệ nhân tạo chính là những "đường chuyền dọn cỗ" giúp mình bứt phá, phân tích dữ liệu vĩ mô chính xác và tối ưu hiệu suất công việc.
-                </p>
-                <div class="quote-box">
-                    "Tư duy chiến thuật không phải là làm mọi thứ phức tạp lên, mà là chọn đúng thời điểm, đúng công cụ để giải quyết bài toán khó một cách tối giản nhất."
-                </div>
-            </div>
-
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-num">06</div>
-                    <div class="metric-title">Bài tập số</div>
-                    <div class="metric-desc">Tích lũy từ cơ bản đến nâng cao</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-num">100%</div>
-                    <div class="metric-title">Liêm chính học thuật</div>
-                    <div class="metric-desc">Cam kết ứng dụng AI có trách nhiệm</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-num">04</div>
-                    <div class="metric-title">Nhóm công cụ</div>
-                    <div class="metric-desc">Quản lý, Phân tích, Sáng tạo & Cộng tác</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-num">UEB</div>
-                    <div class="metric-title">Môi trường định hình</div>
-                    <div class="metric-desc">Nền tảng tri thức vững chãi</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mid-Section GG Drive CTA Card -->
-    <div class="cta-drive-box">
-        <h3>HỒ SƠ BÀI TẬP TRỰC TUYẾN</h3>
-        <p>Toàn bộ tài liệu, cấu trúc thư mục thực hành và báo cáo chi tiết được lưu trữ trực tiếp trên Google Drive chính thức của khóa học.</p>
-        <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" target="_blank" class="btn-drive">
-            <i class="fa-brands fa-google-drive"></i>Xem bài tập trên GG drive
-        </a>
-    </div>
-
-    <!-- Interactive Tactical Board Section -->
-    <section id="tactical-projects">
-        <div class="section-title">
-            <h2>SA BÀN CHIẾN THUẬT HỌC TẬP</h2>
-            <p>Click vào các vị trí chiến lược trên sân để xem chi tiết từng "bàn thắng học tập" của mình</p>
-        </div>
-
-        <div class="tactical-intro">
-            <p>Mình đã mô phỏng lộ trình học tập của học phần <strong>Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo</strong> thành một sơ đồ đội hình bóng đá. Mỗi bài tập đóng vai trò một vị trí chiến lược giúp xây dựng thế trận tri thức vững chắc.</p>
+    <!-- HERO SECTION (FUT CHAMPION CARD & PROFILE) -->
+    <section id="about" class="min-h-[85vh] flex items-center justify-center py-12 px-4 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
             
-            <!-- Mobile Horizontal Selector (visible on mobile only) -->
-            <div class="mobile-tactical-selector">
-                <div class="mobile-tab-btn active" onclick="selectNode('gk')">Bài 1: GK</div>
-                <div class="mobile-tab-btn" onclick="selectNode('cb')">Bài 2: CB</div>
-                <div class="mobile-tab-btn" onclick="selectNode('cm')">Bài 3: CM</div>
-                <div class="mobile-tab-btn" onclick="selectNode('cam')">Bài 4: CAM</div>
-                <div class="mobile-tab-btn" onclick="selectNode('rw')">Bài 5: RW</div>
-                <div class="mobile-tab-btn" onclick="selectNode('cf')">Bài 6: CF</div>
-            </div>
-        </div>
-
-        <div class="tactical-board-grid">
-            <!-- Left Side: Interactive Pitch -->
-            <div class="football-pitch">
-                <div class="pitch-penalty-area-top"></div>
-                <div class="pitch-center-circle"></div>
-                <div class="pitch-penalty-area-bottom"></div>
-
-                <!-- Position 6: CF (Responsible AI) -->
-                <div class="tactical-node node-cf" onclick="selectNode('cf')" id="node-cf">
-                    <div class="node-ring">10<div class="node-pulse"></div></div>
-                    <div class="node-label">Bài 6: Đạo Đức AI (CF)</div>
+            <!-- Left Side: Interactive Personal Introduction -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-white/90 border border-slate-200 shadow-sm px-4 py-1.5 rounded-full text-xs font-bold text-stadiumBlue">
+                    <i class="fas fa-medal text-championGold"></i> KIẾN TẠO KỶ NGUYÊN SỐ
                 </div>
-
-                <!-- Position 5: RW (AI Content Creation) -->
-                <div class="tactical-node node-rw" onclick="selectNode('rw')" id="node-rw">
-                    <div class="node-ring">07<div class="node-pulse"></div></div>
-                    <div class="node-label">Bài 5: Sáng Tạo AI (RW)</div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none text-slate-900">
+                    BÙI PHƯƠNG UYÊN
+                </h1>
+                <p class="font-serif italic text-xl sm:text-2xl text-stadiumBlue">
+                    "Tầm nhìn sắc bén - Đường chuyền chuẩn xác - Bứt phá giới hạn"
+                </p>
+                <div class="text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed text-sm sm:text-base space-y-4">
+                    <p>
+                        Chào mừng bạn đến với sân đấu số của tôi! Tôi là sinh viên chuyên ngành <strong>Kinh tế quốc tế</strong> tại trường <strong>Đại học Kinh tế - ĐHQGHN (UEB)</strong>.
+                    </p>
+                    <p>
+                        Cũng như phong cách thi đấu đầy nhãn quan chiến thuật của Lionel Messi, tôi tiếp cận công nghệ số và ứng dụng AI trong học phần <strong>VNU1001</strong> với tinh thần kiểm soát trận đấu hoàn hảo, phối hợp đồng đội nhịp nhàng và luôn tạo nên những giải pháp đột phá nhưng đầy trách nhiệm.
+                    </p>
                 </div>
-
-                <!-- Position 4: CAM (Group Collaboration) -->
-                <div class="tactical-node node-cam" onclick="selectNode('cam')" id="node-cam">
-                    <div class="node-ring">08<div class="node-pulse"></div></div>
-                    <div class="node-label">Bài 4: Hợp Tác Nhóm (CAM)</div>
-                </div>
-
-                <!-- Position 3: CM (Prompt Engineering) -->
-                <div class="tactical-node node-cm" onclick="selectNode('cm')" id="node-cm">
-                    <div class="node-ring">06<div class="node-pulse"></div></div>
-                    <div class="node-label">Bài 3: Viết Prompt (CM)</div>
-                </div>
-
-                <!-- Position 2: CB (FTA & FDI Search) -->
-                <div class="tactical-node node-cb" onclick="selectNode('cb')" id="node-cb">
-                    <div class="node-ring">04<div class="node-pulse"></div></div>
-                    <div class="node-label">Bài 2: Nghiên Cứu Học Thuật (CB)</div>
-                </div>
-
-                <!-- Position 1: GK (Basic File Management) -->
-                <div class="tactical-node node-gk active" onclick="selectNode('gk')" id="node-gk">
-                    <div class="node-ring">01<div class="node-pulse"></div></div>
-                    <div class="node-label">Bài 1: Quản Lý Tệp Tin (GK)</div>
-                </div>
-            </div>
-
-            <!-- Right Side: Details Display (Rendered dynamically based on active node) -->
-            <div class="tactical-details glass-panel">
                 
-                <!-- Assignment 1 Display -->
-                <div class="assignment-display active" id="display-gk">
-                    <div class="assignment-chapter">Chương 1: Máy tính & Thiết bị ngoại vi</div>
-                    <h3 class="assignment-title">Thao tác cơ bản với Tệp tin và Thư mục</h3>
-                    <div class="assignment-tactics"><i class="fa-solid fa-shield-halved"></i> Vị trí: GK (Thủ môn) - Bảo vệ hậu phương vững chắc</div>
-                    <div class="assignment-body">
-                        <p>
-                            Bất kỳ lối chơi đỉnh cao nào cũng cần bắt đầu từ khả năng giữ sạch lưới và kiểm soát tốt các đường bóng cơ bản nhất. Trong thế giới số, kỹ năng quản lý tệp tin một cách khoa học chính là nền tảng giúp mình tối ưu hóa hệ thống dữ liệu học tập.
-                        </p>
-                        
-                        <div class="assignment-section-title"><i class="fa-solid fa-list-check"></i> Các kỹ năng cốt lõi đã rèn luyện:</div>
-                        <ul class="assignment-list">
-                            <li>Xây dựng cấu trúc thư mục quy chuẩn: Tạo lập thư mục gốc <code>ThucHanh_BuiPhuongUyen</code> trực tiếp trên ổ D: để lưu trữ toàn bộ tiến trình học tập.</li>
-                            <li>Tạo lập và đặt tên tệp tối ưu: Khởi tạo tệp văn bản <code>GhiChu.txt</code>, thực hiện thao tác đổi tên an toàn thành <code>GhiChuQuanTrong.txt</code>.</li>
-                            <li>Tổ chức cây thư mục: Thiết lập thư mục con <code>TaiLieu</code>, di chuyển dữ liệu thông qua các tổ hợp phím tắt nhanh (Ctrl + C, Ctrl + X, Ctrl + V).</li>
-                            <li>Kỹ năng xóa an toàn và khôi phục: Làm chủ cơ chế xóa tạm thời (đưa vào Recycle Bin), cơ chế xóa vĩnh viễn (Shift + Delete) và khôi phục dữ liệu nguyên vẹn thông qua lệnh Restore từ Thùng Rác.</li>
-                        </ul>
-
-                        <div class="assignment-highlight-box">
-                            <h4>Nhật ký tự học:</h4>
-                            Mặc dù đây là các thao tác cơ bản trên Windows, việc tuân thủ quy tắc đặt tên không dấu, sử dụng dấu gạch dưới (_) và phân cấp thư mục khoa học đã giúp mình tiết kiệm cực kỳ nhiều thời gian khi quản lý dữ liệu lớn phục vụ cho các nghiên cứu kinh tế sau này.
-                        </div>
+                <!-- Quick Info Chips -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 pt-4 text-left">
+                    <div class="bg-white/90 p-3 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-xs text-slate-400 block font-bold">MÃ SINH VIÊN</span>
+                        <span class="font-bold text-sm text-stadiumBlue">25051076</span>
+                    </div>
+                    <div class="bg-white/90 p-3 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-xs text-slate-400 block font-bold">CHUYÊN NGÀNH</span>
+                        <span class="font-bold text-sm text-stadiumBlue text-ellipsis overflow-hidden">Kinh tế quốc tế</span>
+                    </div>
+                    <div class="bg-white/90 p-3 rounded-xl border border-slate-200 shadow-sm col-span-2 sm:col-span-1">
+                        <span class="text-xs text-slate-400 block font-bold">HỌC PHẦN</span>
+                        <span class="font-bold text-xs text-stadiumBlue">Công nghệ số & AI</span>
                     </div>
                 </div>
-
-                <!-- Assignment 2 Display -->
-                <div class="assignment-display" id="display-cb">
-                    <div class="assignment-chapter">Chương 2: Khai thác dữ liệu và thông tin</div>
-                    <h3 class="assignment-title">Tìm kiếm & Đánh giá thông tin học thuật</h3>
-                    <div class="assignment-tactics"><i class="fa-solid fa-compass"></i> Vị trí: CB (Trung vệ) - Thu hồi & Sàng lọc thông tin</div>
-                    <div class="assignment-body">
-                        <p>
-                            Là trung vệ quét trên sân, nhiệm vụ trọng yếu là sàng lọc và ngăn chặn những nguồn tin rác, kém chất lượng tiếp cận vùng cấm học thuật. Bài tập này giúp mình hình thành quy trình tìm kiếm tài liệu chuẩn xác phục vụ trực tiếp cho chuyên ngành Kinh tế Quốc tế.
-                        </p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-file-invoice"></i> Chủ đề nghiên cứu:</div>
-                        <p><em>"Tác động của các Hiệp định Thương mại Tự do (FTA) đến cơ hội thu hút vốn đầu tư trực tiếp từ nước ngoài (FDI) tại Việt Nam."</em></p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-magnifying-glass"></i> Chiến thuật tìm kiếm thông tin:</div>
-                        <ul class="assignment-list">
-                            <li>Sử dụng các bộ từ khóa song ngữ tối ưu: <em>"Hiệp định thương mại tự do"</em>, <em>"FDI vào Việt Nam"</em>, <em>"Free Trade Agreements and FDI inflows"</em>, <em>"Vietnam's FDI attraction post-EVFTA"</em>.</li>
-                            <li>Khai thác hệ cơ sở dữ liệu học thuật uy tín cao như Google Scholar, Microsoft Academic và thư viện trường (VNULic).</li>
-                            <li>Sử dụng AI để định vị nhanh các tạp chí khoa học chuyên ngành uy tín: Tạp chí Kinh tế và Phát triển (NEU), Tạp chí Khoa học ĐH Thăng Long, Tạp chí Công Thương...</li>
-                        </ul>
-
-                        <div class="assignment-highlight-box">
-                            <h4>Tiêu chí đánh giá chất lượng nguồn:</h4>
-                            Sử dụng thang đo 5 điểm để đánh giá các tài liệu tìm được thông qua học vị tác giả (Tiến sĩ, PGS của ĐHKTQD, ĐHQGHN, ĐH Waikato), danh tiếng nhà xuất bản (Taylor & Francis, Oxford University Press) và tính cập nhật thời sự của phương pháp nghiên cứu (mô hình Gravity Model, ước lượng GMM).
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Assignment 3 Display -->
-                <div class="assignment-display" id="display-cm">
-                    <div class="assignment-chapter">Chương 3: Viết Prompt hiệu quả cho các tác vụ học tập</div>
-                    <h3 class="assignment-title">Kiến tạo chuẩn xác cùng Khung Prompt R-I-S-C</h3>
-                    <div class="assignment-tactics"><i class="fa-solid fa-wand-magic-sparkles"></i> Vị trí: CM (Tiền vệ kiến thiết) - Phân phối bóng & Tổ chức lối chơi</div>
-                    <div class="assignment-body">
-                        <p>
-                            Tiền vệ trung tâm là người phân phối bóng, điều tiết nhịp độ trận đấu. Việc viết một câu lệnh (Prompt) chuẩn xác cho AI cũng giống như việc tung ra một đường chuyền đúng tầm để tiền đạo dứt điểm. Bài tập giúp mình làm chủ nghệ thuật ra lệnh cho AI.
-                        </p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-code"></i> 3 Tác vụ ứng dụng trong Kinh tế vĩ mô:</div>
-                        <table class="table-simple">
-                            <thead>
-                                <tr>
-                                    <th>Tác vụ</th>
-                                    <th>Cú pháp Prompt cải tiến / Nâng cao</th>
-                                    <th>Đầu ra đạt được</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Tóm tắt tài liệu</strong></td>
-                                    <td>Đóng vai trợ lý khoa học. Tóm tắt theo cấu trúc: Mục tiêu, Giả thuyết, Kết quả, Hạn chế. Trình bày danh sách gạch đầu dòng chuyên nghiệp.</td>
-                                    <td>Bản tóm tắt báo cáo tài chính Vinamilk cực kỳ cô đọng, bỏ qua các chi tiết thừa.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Giải thích khái niệm</strong></td>
-                                    <td>Đóng vai Giáo sư Kinh tế. Giải thích "Kinh tế số" kèm 2 ví dụ Việt Nam bằng phương pháp Chain-of-Thought (tư duy từng bước).</td>
-                                    <td>Khái niệm phức tạp trở nên trực quan, sinh động với ví dụ thanh toán MoMo và sàn thương mại điện tử Shopee.</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Tạo đề ôn tập (Quiz)</strong></td>
-                                    <td>Đóng vai chuyên gia thiết kế đề thi. Tạo 5 câu trắc nghiệm vận dụng cao về Thuế & Cân bằng thị trường, kèm logic giải thích chi tiết dựa trên lý thuyết Cung - Cầu.</td>
-                                    <td>Bộ câu hỏi phân hóa tốt năng lực học tập để ôn luyện trước kỳ thi vĩ mô.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="assignment-highlight-box">
-                            <h4>Hệ thống nguyên tắc R-I-S-C tự đúc rút:</h4>
-                            <strong>R (Role - Vai trò):</strong> Luôn bắt đầu bằng việc giao một vai trò cụ thể cho AI.<br>
-                            <strong>I (Instruction - Chỉ dẫn):</strong> Sử dụng động từ hành động dứt khoát.<br>
-                            <strong>S (Specifics - Chi tiết):</strong> Cung cấp ngữ cảnh đầy đủ.<br>
-                            <strong>C (Control - Kiểm soát):</strong> Định hình chính xác độ dài và định dạng đầu ra.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Assignment 4 Display -->
-                <div class="assignment-display" id="display-cam">
-                    <div class="assignment-chapter">Chương 4: Sử dụng công cụ hợp tác trực tuyến cho dự án nhóm</div>
-                    <h3 class="assignment-title">Sự phối hợp Tikitaka của các công cụ số</h3>
-                    <div class="assignment-tactics"><i class="fa-solid fa-users"></i> Vị trí: CAM (Tiền vệ công) - Kết nối đồng đội, bứt phá giới hạn</div>
-                    <div class="assignment-body">
-                        <p>
-                            Một siêu sao không bao giờ có thể tự mình giành chiến thắng nếu không có sự phối hợp ăn ý với đồng đội. Dự án nhóm là sân chơi lý tưởng để mình ứng dụng hệ sinh thái công cụ số, tối ưu hóa quá trình làm việc chung.
-                        </p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-folder-open"></i> Dự án nghiên cứu thực tế:</div>
-                        <p><em>"Nghiên cứu về xu hướng sử dụng công nghệ của học sinh tiểu học tại khu vực nội thành (Cầu Giấy, Hà Nội)"</em></p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-network-wired"></i> Sơ đồ vận hành công cụ hợp tác:</div>
-                        <ul class="assignment-list">
-                            <li><strong>Google Sheets:</strong> "Bảng phân công nhiệm vụ" đóng vai trò điều phối viên tổng thể, theo dõi sát sao tiến độ, người phụ trách và deadline của từng thành viên trong tuần.</li>
-                            <li><strong>Google Forms & Canva:</strong> Đồng chỉnh sửa trực tuyến biểu mẫu khảo sát học sinh và thiết kế slide thuyết trình, video báo cáo chuyên nghiệp.</li>
-                            <li><strong>Google Drive:</strong> Hệ thống hóa và phân loại các tệp video quay phỏng vấn thực địa một cách khoa học (quay frame ngang, đủ ánh sáng, cắt bỏ phần thừa).</li>
-                            <li><strong>Zalo:</strong> Trao đổi tức thời, cập nhật tiến độ liên tục và phản hồi góp ý tức thì cho nhóm.</li>
-                        </ul>
-
-                        <div class="assignment-highlight-box">
-                            <h4>Đóng góp cá nhân:</h4>
-                            Mình chịu trách nhiệm chính ở khâu thiết kế công cụ khảo sát trực tuyến/khảo sát giấy, đi quay phỏng vấn thực địa và trực tiếp biên tập video, hoàn thiện slide báo cáo chung của toàn đội.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Assignment 5 Display -->
-                <div class="assignment-display" id="display-rw">
-                    <div class="assignment-chapter">Chương 5: Sử dụng AI sinh thành hỗ trợ sáng tạo nội dung</div>
-                    <h3 class="assignment-title">Sáng tạo nội dung với sức mạnh của AI</h3>
-                    <div class="assignment-tactics"><i class="fa-solid fa-palette"></i> Vị trí: RW (Tiền đạo cánh) - Sáng tạo đột phá, kiến tạo khoảng trống</div>
-                    <div class="assignment-body">
-                        <p>
-                            Tiền đạo cánh luôn sở hữu sự sáng tạo đột biến, dám nghĩ dám làm để vượt qua những hàng thủ kiên cố nhất. Trong dự án thiết kế Infographic về môi trường, mình đã khéo léo biến AI thành người đồng đội đắc lực để biến hóa ý tưởng thành sản phẩm trực quan sinh động.
-                        </p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-leaf"></i> Dự án Infographic:</div>
-                        <p><em>"Biến đổi Khí hậu & Đa dạng Sinh học tại Việt Nam: Thực trạng và Tác động"</em></p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-robot"></i> Sự phối hợp nhịp nhàng với AI:</div>
-                        <ul class="assignment-list">
-                            <li><strong>ChatGPT:</strong> Hỗ trợ nghiên cứu dữ liệu, đề xuất dàn ý nội dung logic gồm 5 phần chính: Thực trạng vĩ mô, Hệ sinh thái tổn thương, Các loài đứng trước nguy cơ, Điểm nóng và Hành động thực tế.</li>
-                            <li><strong>AI Image Generator (123RF/Bing):</strong> Phác thảo nhanh các bản nháp (drafts) ý tưởng về bố cục, khối thông tin và phong cách thiết kế phẳng hiện đại.</li>
-                            <li><strong>Canva AI:</strong> Đề xuất các mẫu khung xương phù hợp với chủ đề môi trường và tự nhiên học.</li>
-                        </ul>
-
-                        <div class="assignment-highlight-box">
-                            <h4>Dấu ấn sáng tạo cá nhân (Không phụ thuộc AI):</h4>
-                            Mình đã chủ động thực hiện kiểm chứng toàn bộ con số thực tế về mức tăng nhiệt độ (0.5-0.7°C), mực nước biển dâng (20cm) tại Việt Nam. Đồng thời tiến hành Việt hóa, biên tập tiêu đề súc tích và tinh chỉnh lại bảng màu xanh dương/navy đậm kết hợp sắc cam để sản phẩm đạt tính thẩm mỹ và thông điệp truyền tải mạnh mẽ nhất.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Assignment 6 Display -->
-                <div class="assignment-display" id="display-cf">
-                    <div class="assignment-chapter">Chương 6: Sử dụng AI có trách nhiệm trong học tập và nghiên cứu</div>
-                    <h3 class="assignment-title">Đạo đức và Tinh thần Fairplay học thuật</h3>
-                    <div class="assignment-tactics"><i class="fa-solid fa-scale-balanced"></i> Vị trí: CF (Tiền đạo trung tâm) - Dứt điểm văn minh, đúng luật chơi</div>
-                    <div class="assignment-body">
-                        <p>
-                            Một bàn thắng chỉ thực sự có giá trị khi nó được ghi một cách hợp lệ và trung thực, không có sự gian lận. Ứng dụng AI vào học tập cũng vậy, liêm chính học thuật là nguyên tắc tối thượng để khẳng định năng lực thực chất của bản thân.
-                        </p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-gavel"></i> Nghiên cứu khung pháp lý:</div>
-                        <p>Tìm hiểu sâu sắc Luật Trí tuệ nhân tạo 2025, dự thảo Thông tư ứng dụng công nghệ của Bộ GD&ĐT và tinh thần học phần chung VNU1001 tại Đại học Quốc gia Hà Nội.</p>
-
-                        <div class="assignment-section-title"><i class="fa-solid fa-graduation-cap"></i> 7 Nguyên tắc cá nhân về sử dụng AI:</div>
-                        <table class="table-simple">
-                            <thead>
-                                <tr>
-                                    <th>Nguyên tắc</th>
-                                    <th>Cách mình thực hiện thực tế</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="pill pill-gold">Minh bạch</span></td>
-                                    <td>Công khai đầy đủ mức độ hỗ trợ của công cụ AI trong phần chú thích phương pháp của tiểu luận.</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="pill pill-gold">Trung thực</span></td>
-                                    <td>Tuyệt đối không sao chép nguyên văn đầu ra của AI. Tự lập luận và viết bài bằng văn phong cá nhân.</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="pill pill-blue">Kiểm chứng</span></td>
-                                    <td>Luôn tra cứu chéo các con số, nhận định của AI với báo cáo chính thống của Bộ Công Thương, VECOM, Amazon.</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="pill pill-blue">Tôn trọng</span></td>
-                                    <td>Tránh coi AI là nguồn trích dẫn độc lập, luôn trích xuất tận cùng nguồn tác giả gốc.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="assignment-highlight-box">
-                            <h4>Ứng dụng thực tế:</h4>
-                            Trong tiểu luận nghiên cứu <em>"Tác động của thương mại điện tử xuyên biên giới đến xuất khẩu của doanh nghiệp vừa và nhỏ Việt Nam"</em>, mình chỉ sử dụng Claude để hỗ trợ lên dàn ý sơ bộ ban đầu và tóm tắt nhanh tài liệu tham khảo, toàn bộ phần phân tích sâu và viết nội dung đều do chính mình tự thực hiện.
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </section>
 
-    <!-- General Portfolio Reflection Section -->
-    <section id="reflection">
-        <div class="section-title">
-            <h2>NHẬT KÝ SAU MÙA GIẢI</h2>
-            <p>Hành trình tự nhìn nhận, rèn luyện và bứt phá bản thân qua học phần số</p>
-        </div>
-
-        <div class="glass-panel reflection-content">
-            <h3><i class="fa-solid fa-trophy"></i>Tổng kết Hành trình Sáng tạo</h3>
-            
-            <div class="reflection-grid">
-                <div>
-                    <div class="reflection-card">
-                        <h4><i class="fa-solid fa-lightbulb"></i>Những kiến thức và kỹ năng giá trị nhất gặt hái được</h4>
-                        <p>
-                            Đi qua 6 chương học, mình đã không còn mơ hồ trước các khái niệm công nghệ số. Kỹ năng tư duy câu lệnh (Prompt Engineering) theo khung R-I-S-C giúp mình làm chủ và cộng tác hiệu quả với các mô hình ngôn ngữ lớn như ChatGPT, Claude. Đồng thời, tư duy làm việc nhóm trực tuyến trên nền tảng Cloud giúp mình tăng tốc độ phối hợp và giải quyết công việc vĩ mô vượt trội.
-                        </p>
-                    </div>
-
-                    <div class="reflection-card">
-                        <h4><i class="fa-solid fa-triangle-exclamation"></i>Những thách thức lớn nhất và cách vượt qua</h4>
-                        <p>
-                            Khó khăn lớn nhất chính là kiểm soát "sự cám dỗ" của AI để tránh lạm dụng và mất đi tư duy phản biện cá nhân. Mình đã vượt qua bằng cách áp dụng bộ nguyên tắc cá nhân nghiêm ngặt: Luôn coi AI là một người trợ lý gợi mở ý tưởng, chứ tuyệt đối không phải là người viết thay. Mọi số liệu AI đưa ra đều phải qua bộ lọc kiểm chứng thực tế trước khi đưa vào bài học.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="skills-container">
-                    <h4>Đánh giá chỉ số năng lực số cá nhân</h4>
+            <!-- Right Side: Beautiful 3D FUT Card (Messi Style) -->
+            <div class="lg:col-span-5 flex justify-center fut-card-container">
+                <div class="fut-card w-[310px] h-[480px] relative bg-gradient-to-b from-amber-100 via-amber-200 to-amber-400 p-1.5 rounded-[2.5rem] shadow-2xl border-4 border-white/60 cursor-pointer overflow-hidden group">
+                    <!-- Gold shine overlay on card -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                     
-                    <div>
-                        <div class="skill-header">
-                            <span>Quản lý dữ liệu học thuật (GK)</span>
-                            <span>90%</span>
+                    <div class="h-full w-full bg-[#121824] rounded-[2.2rem] p-4 text-white flex flex-col justify-between relative overflow-hidden">
+                        <!-- Card background football pattern -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-100 via-slate-600 to-slate-900"></div>
+                        
+                        <!-- Header with Rating and Position -->
+                        <div class="flex justify-between items-start z-10">
+                            <div class="text-center">
+                                <span class="block text-4xl font-extrabold text-championGold">99</span>
+                                <span class="block text-xs font-bold text-amber-200">IE</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <i class="fas fa-crown text-championGold animate-bounce"></i>
+                                <span class="bg-stadiumBlue/80 text-[10px] px-2 py-0.5 rounded-md font-bold border border-white/20">UEB - VNU</span>
+                            </div>
                         </div>
-                        <div class="skill-progress-bar">
-                            <div class="skill-fill" style="width: 90%;"></div>
-                        </div>
-                    </div>
 
-                    <div>
-                        <div class="skill-header">
-                            <span>Sàng lọc & Đánh giá tài liệu (CB)</span>
-                            <span>85%</span>
+                        <!-- Player Avatar (Styled like a FUT Card Art) -->
+                        <div class="absolute top-14 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full border-4 border-championGold overflow-hidden bg-slate-800 shadow-inner z-10 group-hover:scale-105 transition-transform duration-300">
+                            <!-- In a production build, this would render "Hình 1.jpg" perfectly -->
+                            <img src="Hình 1.jpg" alt="Bùi Phương Uyên Avatar" class="w-full h-full object-cover object-top">
                         </div>
-                        <div class="skill-progress-bar">
-                            <div class="skill-fill" style="width: 85%;"></div>
-                        </div>
-                    </div>
 
-                    <div>
-                        <div class="skill-header">
-                            <span>Kỹ thuật Prompt Engineering (CM)</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-progress-bar">
-                            <div class="skill-fill" style="width: 95%;"></div>
-                        </div>
-                    </div>
+                        <!-- Card Footer with Stats -->
+                        <div class="z-10 mt-36 space-y-2">
+                            <!-- Player Name -->
+                            <div class="text-center">
+                                <h3 class="text-lg font-black tracking-wide text-championGold uppercase">P. UYÊN BÙI</h3>
+                                <p class="text-[9px] text-slate-300 font-bold uppercase tracking-widest">TACTICAL DIGITAL PLAYMAKER</p>
+                            </div>
 
-                    <div>
-                        <div class="skill-header">
-                            <span>Ứng dụng AI sáng tạo nội dung (RW)</span>
-                            <span>92%</span>
-                        </div>
-                        <div class="skill-progress-bar">
-                            <div class="skill-fill" style="width: 92%;"></div>
-                        </div>
-                    </div>
+                            <hr class="border-white/20">
 
-                    <div>
-                        <div class="skill-header">
-                            <span>Tư duy Liêm chính & Đạo đức số (CF)</span>
-                            <span>100%</span>
-                        </div>
-                        <div class="skill-progress-bar">
-                            <div class="skill-fill" style="width: 100%;"></div>
+                            <!-- FIFA Style Stats Table -->
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs px-2 font-bold">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">TEC (Quản lý)</span>
+                                    <span class="text-championGold">96</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">COL (Hợp tác)</span>
+                                    <span class="text-championGold">95</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">SCH (Tìm kiếm)</span>
+                                    <span class="text-championGold">94</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">CRE (Sáng tạo)</span>
+                                    <span class="text-championGold">97</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">PRM (AI Prompt)</span>
+                                    <span class="text-championGold">98</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">ETH (Đạo đức)</span>
+                                    <span class="text-championGold">99</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE INTERACTIVE TACTICAL BOARD (PORTFOLIO MATCHES) -->
+    <section id="tactical-pitch" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
+        
+        <!-- Section Header -->
+        <div class="text-center space-y-3">
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">SƠ ĐỒ CHIẾN THUẬT BÀI TẬP</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-stadiumBlue to-championGold mx-auto rounded-full"></div>
+            <p class="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
+                Mỗi bài học được định hình như một vị trí chiến thuật quan trọng trên sân cỏ, đảm nhận vai trò bứt phá và mang lại bàn thắng cho đội bóng tri thức.
+            </p>
+        </div>
+
+        <!-- Google Drive Call to Action Button before exercises -->
+        <div class="flex justify-center pt-2">
+            <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" 
+               target="_blank" 
+               class="inline-flex items-center gap-3 bg-gradient-to-r from-[#d4af37] to-amber-500 hover:from-stadiumBlue hover:to-stadiumSky text-white px-8 py-4 rounded-xl font-black tracking-wider text-sm shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all animate-pulse">
+                <i class="fab fa-google-drive text-lg"></i> XEM TOÀN BỘ BÀI TẬP TRÊN GOOGLE DRIVE
+            </a>
+        </div>
+
+        <!-- Interactive Board Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pt-6">
+            
+            <!-- Left Panel: Stylized Football Pitch Selection Map (5 cols) -->
+            <div class="lg:col-span-5 glass-card rounded-[2rem] p-6 border border-slate-200/60 shadow-lg relative">
+                <div class="absolute -top-3 left-6 bg-stadiumBlue text-white text-[10px] uppercase tracking-widest font-extrabold px-3 py-1 rounded-full">
+                    Sân đấu kỹ năng
+                </div>
+                
+                <h3 class="text-sm font-bold text-slate-400 mb-4 uppercase tracking-wider text-center">Bấm vào vị trí trên sân</h3>
+                
+                <!-- Soccer Pitch Visual Grid -->
+                <div class="aspect-[3/4] w-full bg-gradient-to-b from-[#1a472a] to-[#0f2d1a] rounded-2xl relative p-4 border border-white/20 shadow-inner overflow-hidden">
+                    <!-- Pitch Grass lines (alternating strips) -->
+                    <div class="absolute inset-x-0 h-1/6 top-0 bg-white/5"></div>
+                    <div class="absolute inset-x-0 h-1/6 top-2/6 bg-white/5"></div>
+                    <div class="absolute inset-x-0 h-1/6 top-4/6 bg-white/5"></div>
+                    
+                    <!-- Sân Bóng Boundary & Penalty Area Markings -->
+                    <div class="absolute inset-2 border border-white/20 rounded-xl pointer-events-none"></div>
+                    <div class="absolute inset-x-12 top-2 h-24 border-b border-x border-white/20 rounded-b-xl pointer-events-none"></div>
+                    <div class="absolute inset-x-12 bottom-2 h-24 border-t border-x border-white/20 rounded-t-xl pointer-events-none"></div>
+                    <div class="absolute top-1/2 left-2 right-2 border-t border-white/10 pointer-events-none"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border border-white/20 rounded-full pointer-events-none"></div>
+
+                    <!-- Interactive Player Positions (Week 1 - 6) -->
+                    <!-- 1. Week 1: Goalkeeper (Foundation) -->
+                    <button onclick="selectMatch(1)" id="pos-1" class="pitch-btn absolute bottom-6 left-1/2 -translate-x-1/2 bg-white hover:bg-championGold text-stadiumBlue hover:text-white p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-championGold hover:scale-110 active:scale-95 transition-all group z-10">
+                        1
+                        <span class="absolute -top-6 bg-slate-900 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap">T1: File & Folder</span>
+                    </button>
+
+                    <!-- 2. Week 6: Defender (Responsible AI / Ethics) -->
+                    <button onclick="selectMatch(6)" id="pos-6" class="pitch-btn absolute bottom-32 left-1/2 -translate-x-1/2 bg-white hover:bg-championGold text-stadiumBlue hover:text-white p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-championGold hover:scale-110 active:scale-95 transition-all group z-10">
+                        6
+                        <span class="absolute -top-6 bg-slate-900 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap">T6: Responsible AI</span>
+                    </button>
+
+                    <!-- 3. Week 2: Midfielder Left (Academic Search) -->
+                    <button onclick="selectMatch(2)" id="pos-2" class="pitch-btn absolute top-1/2 left-1/4 -translate-y-1/2 -translate-x-1/2 bg-white hover:bg-championGold text-stadiumBlue hover:text-white p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-championGold hover:scale-110 active:scale-95 transition-all group z-10">
+                        2
+                        <span class="absolute -top-6 bg-slate-900 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap">T2: Academic Search</span>
+                    </button>
+
+                    <!-- 4. Week 3: Midfielder Right (Prompt Engineering) -->
+                    <button onclick="selectMatch(3)" id="pos-3" class="pitch-btn absolute top-1/2 left-3/4 -translate-y-1/2 -translate-x-1/2 bg-white hover:bg-championGold text-stadiumBlue hover:text-white p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-championGold hover:scale-110 active:scale-95 transition-all group z-10">
+                        3
+                        <span class="absolute -top-6 bg-slate-900 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap">T3: Prompting</span>
+                    </button>
+
+                    <!-- 5. Week 4: Winger Forward (Online Collaboration) -->
+                    <button onclick="selectMatch(4)" id="pos-4" class="pitch-btn absolute top-1/3 left-1/2 -translate-x-1/2 bg-white hover:bg-championGold text-stadiumBlue hover:text-white p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-championGold hover:scale-110 active:scale-95 transition-all group z-10">
+                        4
+                        <span class="absolute -top-6 bg-slate-900 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap">T4: Group Work</span>
+                    </button>
+
+                    <!-- 6. Week 5: Center Forward (AI Content Creation) -->
+                    <button onclick="selectMatch(5)" id="pos-5" class="pitch-btn absolute top-12 left-1/2 -translate-x-1/2 bg-white hover:bg-championGold text-stadiumBlue hover:text-white p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-championGold hover:scale-110 active:scale-95 transition-all group z-10">
+                        5
+                        <span class="absolute -top-6 bg-slate-900 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap">T5: AI Design</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Detailed Exercise Viewer Card (7 cols) -->
+            <div id="match-viewer" class="lg:col-span-7 glass-card rounded-[2rem] p-6 lg:p-8 border border-slate-200/60 shadow-lg min-h-[500px] flex flex-col justify-between">
+                
+                <!-- Display content dynamically loaded here -->
+                <div id="match-content" class="space-y-6">
+                    <!-- Standard Welcome screen before selection -->
+                </div>
+
+                <!-- Pagination navigation inside details card -->
+                <div class="flex items-center justify-between border-t border-slate-200 pt-4 mt-6">
+                    <button onclick="prevMatch()" class="text-stadiumBlue hover:text-championGold font-bold text-xs uppercase flex items-center gap-1.5 transition-colors">
+                        <i class="fas fa-arrow-left"></i> Trận trước
+                    </button>
+                    <span id="match-indicator" class="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        Trận 1 / 6
+                    </span>
+                    <button onclick="nextMatch()" class="text-stadiumBlue hover:text-championGold font-bold text-xs uppercase flex items-center gap-1.5 transition-colors">
+                        Trận kế <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE GOLDEN TROPHY CABINET -->
+    <section id="trophy" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
+        <!-- Section Header -->
+        <div class="text-center space-y-3">
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">BẢNG VÀNG THÀNH TÍCH</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-stadiumBlue to-championGold mx-auto rounded-full"></div>
+            <p class="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
+                Không chỉ là kết quả học tập, đây là những cột mốc rèn luyện kỷ luật thép và sự nhạy bén được đúc kết qua suốt chặng đường phát triển cá nhân.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Skill Trophy 1 -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-md hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-championGold text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900">Nhãn quan Nghiên cứu</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Phân tích có hệ thống các văn bản học thuật phức tạp về FTA, FDI, cấu trúc vốn doanh nghiệp và các xu hướng công nghệ thực tiễn chính xác.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-slate-100 mt-4 flex justify-between items-center text-xs font-bold text-stadiumBlue">
+                    <span>ĐỘ CHÍNH XÁC</span>
+                    <span class="text-championGold">94%</span>
+                </div>
+            </div>
+
+            <!-- Skill Trophy 2 -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-md hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-championGold text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900">Kiến tạo Prompt</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Nắm vững triệt để nguyên lý R-I-S-C giúp dẫn dắt các mô hình ngôn ngữ lớn (LLMs) hoạt động tối ưu, chính xác theo cấu trúc tư duy mong muốn.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-slate-100 mt-4 flex justify-between items-center text-xs font-bold text-stadiumBlue">
+                    <span>HIỆU SUẤT TRUY VẤN</span>
+                    <span class="text-championGold">98%</span>
+                </div>
+            </div>
+
+            <!-- Skill Trophy 3 -->
+            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-md hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
+                <div class="space-y-4">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-championGold text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900">Vận hành Hợp tác số</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Chủ động dẫn dắt, phân phối công việc và kiểm soát chặt chẽ quy trình dữ liệu thực địa, mang lại chiến thắng bùng nổ cho dự án nhóm.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-slate-100 mt-4 flex justify-between items-center text-xs font-bold text-stadiumBlue">
+                    <span>ĐỒNG ĐỘI & ĐỒNG BỘ</span>
+                    <span class="text-championGold">95%</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-logo">BÙI PHƯƠNG UYÊN<span>10</span></div>
-        <div class="footer-socials">
-            <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
-            <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" target="_blank" class="social-link"><i class="fa-brands fa-google-drive"></i></a>
+    <!-- SECTION 4: MY VALUES & PHILOSOPHY -->
+    <section class="py-16 px-4 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+            <i class="fas fa-quote-left text-4xl text-championGold opacity-40"></i>
+            <blockquote class="font-serif italic text-xl sm:text-2xl leading-relaxed text-slate-200">
+                "Tôi luôn bắt đầu một trận đấu mới bằng cách quên đi tất cả những bàn thắng của ngày hôm qua. Việc học tập trong kỷ nguyên số cũng như vậy - mỗi tuần mới là một thử thách mở, đòi hỏi sự tập trung tuyệt đối và không ngừng thích nghi."
+            </blockquote>
+            <p class="font-bold uppercase tracking-widest text-championGold text-xs sm:text-sm">
+                — Phỏng tác theo Triết lý thi đấu của Lionel Messi
+            </p>
         </div>
-        <p>© 2026 Bùi Phương Uyên - Digital Portfolio. Học phần Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo.</p>
-        <p style="font-size: 0.75rem; margin-top: 10px; color: var(--text-muted); font-style: italic;">Phát triển dựa trên triết lý bóng đá của Lionel Messi.</p>
+        <!-- Absolute decorative circles representing ball movement -->
+        <div class="absolute -top-12 -left-12 w-48 h-48 rounded-full bg-stadiumBlue/10 blur-3xl"></div>
+        <div class="absolute -bottom-12 -right-12 w-48 h-48 rounded-full bg-stadiumSky/10 blur-3xl"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 py-12 px-4 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left space-y-1">
+                <span class="font-serif text-xl font-bold italic tracking-wider text-white">
+                    UYÊN <span class="text-championGold">BÙI</span>
+                </span>
+                <p class="text-xs text-slate-500">Bản quyền thuộc về Bùi Phương Uyên &copy; 2026. Thiết kế dành cho VNU1001.</p>
+            </div>
+            
+            <div class="flex items-center gap-6 text-xl">
+                <a href="#" class="hover:text-white transition-colors"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a>
+                <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-google-drive"></i></a>
+            </div>
+        </div>
     </footer>
 
-    <!-- Interactive JS to handle custom nodes and transitions -->
+
+    <!-- DATABASE OF EXERCISES CONTENT AND JS INTERACTION -->
     <script>
-        function selectNode(position) {
-            // Remove active classes from all nodes
-            document.querySelectorAll('.tactical-node').forEach(node => {
-                node.classList.remove('active');
+        // Database contains real, beautiful Vietnamese textual representations of each week's assignments
+        const matchesData = {
+            1: {
+                title: "Trận 1: Xây nền chắc chắn - Quản lý tệp tin chuyên nghiệp",
+                sub: "Hệ thống hóa thao tác cơ bản trên Windows",
+                role: "THỦ MÔN - KHU VỰC NỀN TẢNG",
+                desc: "Như một thủ môn rèn luyện các kỹ năng bắt bóng chuẩn xác, bài thực hành đầu tiên giúp tôi làm chủ cấu trúc lưu trữ dữ liệu và quy tắc đặt tên thư mục khoa học nhất.",
+                points: [
+                    "<strong>Xây dựng rào chắn vững chắc:</strong> Tạo lập thư mục <code>ThucHanh_BuiPhuongUyen</code> trên phân vùng ổ D nhanh chóng.",
+                    "<strong>Cú phát bóng chuẩn xác:</strong> Thực hành đổi tên, di chuyển tệp tin <code>GhiChuQuanTrong.txt</code> vào cấu trúc thư mục con <code>TaiLieu</code> hợp lý.",
+                    "<strong>Cứu thua xuất sắc:</strong> Trải nghiệm kỹ thuật khôi phục file đã xóa từ <code>Recycle Bin</code> về nguyên trạng thái ban đầu một cách an toàn."
+                ],
+                icon: "fa-folder-open",
+                color: "from-blue-500 to-indigo-600"
+            },
+            2: {
+                title: "Trận 2: Tầm nhìn chiến lược - Khai thác tri thức quốc tế",
+                sub: "Đánh giá chất lượng tài liệu FTA & FDI Việt Nam",
+                role: "TIỀN VỆ TRUNG TÂM - ĐIỀU PHỐI THÔNG TIN",
+                desc: "Quét góc nhìn toàn sân đấu để thực hiện một báo cáo học thuật chuyên sâu về tác động của các Hiệp định Thương mại tự do (FTA) đến thu hút vốn FDI vào Việt Nam.",
+                points: [
+                    "<strong>Nhãn quan sắc bén:</strong> Khai thác tối ưu nguồn dữ liệu uy tín từ Google Scholar, thư viện VNULic và các tạp chí Kinh tế đầu ngành.",
+                    "<strong>Đường chuyền chính xác:</strong> Sàng lọc kỹ lưỡng phương pháp nghiên cứu hàn lâm (Gravity Model, kiểm định Cronbach's Alpha) và loại bỏ các nguồn kém chất lượng.",
+                    "<strong>Bảng tổng hợp chiến thuật:</strong> Phân loại 12 nguồn tài liệu với thang điểm 5 rõ ràng, làm điểm tựa lý thuyết vững vàng cho chuyên ngành Kinh tế quốc tế."
+                ],
+                icon: "fa-graduation-cap",
+                color: "from-emerald-500 to-teal-600"
+            },
+            3: {
+                title: "Trận 3: Đường chuyền kiến tạo - Prompt Engineering chính xác",
+                sub: "Vận dụng kỹ thuật R-I-S-C vào học tập đại học",
+                role: "TIỀN VỆ CÁNH - KẾT NỐI SÁNG TẠO",
+                desc: "Thiết kế các prompt phức tạp dẫn dắt AI hoạt động với độ chính xác tuyệt đối, biến mô hình ngôn ngữ lớn thành cộng sự ăn ý.",
+                points: [
+                    "<strong>Giao vai trò (Role):</strong> Thiết lập chân dung chuyên gia cho AI giúp bộ lọc từ vựng đạt độ chuyên nghiệp lý tưởng.",
+                    "<strong>Tư duy từng bước (Chain-of-Thought):</strong> Yêu cầu AI phân tích rạch ròi khái niệm 'Kinh tế số' và thiết kế quiz ôn tập phân hóa cao.",
+                    "<strong>Học thuyết R-I-S-C:</strong> Chắt lọc bộ quy tắc vàng (Role, Instruction, Specifics, Control) để nâng tầm chất lượng phản hồi từ AI."
+                ],
+                icon: "fa-robot",
+                color: "from-purple-500 to-pink-600"
+            },
+            4: {
+                title: "Trận 4: Phối hợp đồng đội - Vận hành dự án nhóm thực địa",
+                sub: "Nghiên cứu thói quen công nghệ của học sinh tiểu học Cầu Giấy",
+                role: "HỘ CÔNG - ĐỒNG ĐỘI TOÀN DIỆN",
+                desc: "Không một ai chiến thắng một mình. Quy trình làm việc nhóm chuyên nghiệp kết hợp cùng các công cụ quản lý trực tuyến đồng bộ tối đa.",
+                points: [
+                    "<strong>Kiểm soát nhịp độ trận đấu:</strong> Sử dụng Google Sheets để phân định nhiệm vụ, theo dõi sát sao tiến độ và deadline từng thành viên.",
+                    "<strong>Khảo sát thực địa sắc nét:</strong> Thiết kế bảng hỏi trực tiếp trên Canva và Google Forms để thu thập ý kiến khách quan.",
+                    "<strong>Lưu trữ đồng bộ:</strong> Thiết lập quy chuẩn đặt tên và biên tập video phỏng vấn thực địa trước khi đưa lên đám mây lưu trữ chung."
+                ],
+                icon: "fa-users",
+                color: "from-amber-500 to-orange-600"
+            },
+            5: {
+                title: "Trận 5: Cú sút quyết định - Thiết kế Infographic khí hậu",
+                sub: "Sự kết hợp hoàn hảo giữa thẩm mỹ cá nhân và AI",
+                role: "TIỀN ĐẠO CẮM - GHI BÀN ẤN TƯỢNG",
+                desc: "Tạo nên dấu ấn cá nhân rực rỡ với tác phẩm truyền thông trực quan sinh động về Biến đổi khí hậu & Đa dạng sinh học Việt Nam.",
+                points: [
+                    "<strong>Khởi động chớp nhoáng:</strong> Sử dụng AI để phác thảo ý tưởng bố cục, tiết kiệm đáng kể thời gian lên khung xương ban đầu.",
+                    "<strong>Sự can thiệp của con người:</strong> Trực tiếp kiểm chứng lại dữ liệu khoa học thực tế, hoàn toàn loại bỏ các lỗi 'ảo ảnh' của AI.",
+                    "<strong>Tinh chỉnh thẩm mỹ:</strong> Tự tay điều phối lại màu sắc và biên tập tiêu đề súc tích trên Canva để khơi dậy hành động từ cộng đồng."
+                ],
+                icon: "fa-palette",
+                color: "from-rose-500 to-red-600"
+            },
+            6: {
+                title: "Trận 6: Luật chơi công bằng - AI có trách nhiệm",
+                sub: "Xây dựng 7 nguyên tắc đạo đức học thuật số",
+                role: "HẬU VỆ QUÉT - CHỐT CHẶN AN TOÀN & ĐẠO ĐỨC",
+                desc: "Một chiến thắng chân chính chỉ có được khi tôn trọng luật chơi. Đây là bộ cam kết đạo đức số của riêng tôi khi áp dụng công nghệ mới.",
+                points: [
+                    "<strong>Bám sát luật chơi quốc gia:</strong> Nghiên cứu thấu đáo Luật Trí tuệ nhân tạo 2025 và định hướng đào tạo học phần VNU1001.",
+                    "<strong>Minh bạch trong mọi đường bóng:</strong> Thực hành trích dẫn rõ ràng sự đóng góp của Claude khi lập đề cương nghiên cứu.",
+                    "<strong>7 Nguyên tắc vàng:</strong> Ghi nhớ nằm lòng các quy chuẩn: Minh bạch, Trung thực, Tôn trọng bản quyền, Bảo mật dữ liệu và Trách nhiệm."
+                ],
+                icon: "fa-shield-halved",
+                color: "from-slate-700 to-slate-900"
+            }
+        };
+
+        let currentMatchId = 1;
+
+        // Custom Cursor Trail tracking movement
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Interactive FUT Card tilt effects matching cursor coordinate values
+        const cardContainer = document.querySelector('.fut-card-container');
+        const card = document.querySelector('.fut-card');
+
+        if (cardContainer && card) {
+            cardContainer.addEventListener('mousemove', (e) => {
+                const rect = cardContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const cardWidth = rect.width;
+                const cardHeight = rect.height;
+                
+                const rotateY = ((x / cardWidth) - 0.5) * 30; // Max 15 degrees tilt
+                const rotateX = (((y / cardHeight) - 0.5) * -30);
+                
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.borderColor = '#0052cc';
             });
 
-            // Add active class to clicked node
-            const activeNode = document.getElementById(`node-${position}`);
-            if (activeNode) {
-                activeNode.classList.add('active');
-            }
-
-            // Hide all assignment details with smooth transition
-            document.querySelectorAll('.assignment-display').forEach(display => {
-                display.classList.remove('active');
-            });
-
-            // Show current active assignment
-            const activeDisplay = document.getElementById(`display-${position}`);
-            if (activeDisplay) {
-                activeDisplay.classList.add('active');
-            }
-
-            // Update mobile tab selector visual
-            document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.innerText.toLowerCase().includes(position)) {
-                    btn.classList.add('active');
-                }
+            cardContainer.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.borderColor = '#d4af37';
             });
         }
 
-        // Handle active navigation on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.padding = '10px 20px';
-                header.style.boxShadow = '0 10px 25px rgba(2, 6, 23, 0.5)';
-            } else {
-                header.style.padding = '15px 20px';
-                header.style.boxShadow = 'none';
+        // Active state rendering function for the selection on the pitch
+        function updatePitchHighlight(id) {
+            document.querySelectorAll('.pitch-btn').forEach(btn => {
+                btn.classList.remove('bg-championGold', 'text-white', 'scale-110');
+                btn.classList.add('bg-white', 'text-stadiumBlue');
+            });
+            const activeBtn = document.getElementById(`pos-${id}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-stadiumBlue');
+                activeBtn.classList.add('bg-championGold', 'text-white', 'scale-110');
             }
+        }
+
+        // Main rendering function to load selected match detailed assignment reports
+        function selectMatch(id) {
+            currentMatchId = id;
+            updatePitchHighlight(id);
+            
+            const match = matchesData[id];
+            const viewer = document.getElementById('match-content');
+            
+            // GSAP quick transition
+            gsap.to(viewer, { opacity: 0, y: 15, duration: 0.2, onComplete: () => {
+                viewer.innerHTML = `
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr ${match.color} text-white flex items-center justify-center text-xl shadow-md">
+                                <i class="fas ${match.icon}"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-black tracking-widest text-championGold uppercase block">${match.role}</span>
+                                <h3 class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">${match.title}</h3>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-600 font-medium italic text-sm sm:text-base border-l-4 border-stadiumBlue pl-4">
+                            "${match.desc}"
+                        </p>
+
+                        <div class="space-y-3 pt-2">
+                            <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest">Nội dung tự làm chi tiết</h4>
+                            <ul class="space-y-4">
+                                ${match.points.map(point => `
+                                    <li class="flex items-start gap-3 text-sm sm:text-base text-slate-600 leading-relaxed">
+                                        <span class="text-stadiumBlue mt-1.5 text-xs"><i class="fas fa-circle-check"></i></span>
+                                        <span>${point}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('match-indicator').innerText = `TRẬN ${id} / 6`;
+                gsap.to(viewer, { opacity: 1, y: 0, duration: 0.3 });
+            }});
+        }
+
+        function prevMatch() {
+            let id = currentMatchId - 1;
+            if (id < 1) id = 6;
+            selectMatch(id);
+        }
+
+        function nextMatch() {
+            let id = currentMatchId + 1;
+            if (id > 6) id = 1;
+            selectMatch(id);
+        }
+
+        // Initialize the website on Match Day 1 automatically
+        window.addEventListener('DOMContentLoaded', () => {
+            selectMatch(1);
+            
+            // Subtle scroll reveals using GSAP
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.from("#about", { opacity: 0, y: 50, duration: 1 });
+            gsap.from("#tactical-pitch", {
+                scrollTrigger: {
+                    trigger: "#tactical-pitch",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
+            gsap.from("#trophy", {
+                scrollTrigger: {
+                    trigger: "#trophy",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
         });
     </script>
 </body>
