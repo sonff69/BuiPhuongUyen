@@ -50,12 +50,11 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #d4af37;
         }
-        /* Glassmorphism utility */
+        /* High-contrast Card over raw background video */
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
         }
         /* Custom Cursor Trail */
         .cursor-trail {
@@ -83,20 +82,18 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 relative min-h-screen">
+<body class="bg-transparent text-slate-800 relative min-h-screen">
 
     <!-- Custom Cursor Trail -->
     <div id="cursor" class="cursor-trail"></div>
 
-    <!-- BACKGROUND VIDEO WITH STATIC CONTRAST OVERLAY (No Filter on Video) -->
+    <!-- BACKGROUND VIDEO WITH NO FILTER & NO OVERLAY -->
     <div class="fixed inset-0 w-full h-full -z-20 overflow-hidden">
         <video src="back.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
     </div>
-    <!-- Clean, bright overlay to maintain perfect readability of the light-themed website -->
-    <div class="fixed inset-0 bg-white/75 backdrop-blur-[2px] -z-10"></div>
 
     <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-50 transition-all duration-300 glass-card px-4 lg:px-8 py-3 shadow-sm">
+    <header class="sticky top-0 z-50 transition-all duration-300 glass-card px-4 lg:px-8 py-3 shadow-md">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <a href="#" class="flex items-center gap-2">
                 <span class="font-serif text-2xl lg:text-3xl font-bold italic tracking-wider text-stadiumBlue">
@@ -124,8 +121,8 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
             
             <!-- Left Side: Interactive Personal Introduction -->
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 bg-white/90 border border-slate-200 shadow-sm px-4 py-1.5 rounded-full text-xs font-bold text-stadiumBlue">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left bg-white/90 p-8 rounded-3xl border border-slate-200/80 shadow-xl backdrop-blur-sm">
+                <div class="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm px-4 py-1.5 rounded-full text-xs font-bold text-stadiumBlue">
                     <i class="fas fa-medal text-championGold"></i> KIẾN TẠO KỶ NGUYÊN SỐ
                 </div>
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none text-slate-900">
@@ -139,21 +136,21 @@
                         Chào mừng bạn đến với sân đấu số của tôi! Tôi là sinh viên chuyên ngành <strong>Kinh tế quốc tế</strong> tại trường <strong>Đại học Kinh tế - ĐHQGHN (UEB)</strong>.
                     </p>
                     <p>
-                        Cũng như phong cách thi đấu đầy nhãn quan chiến thuật của Lionel Messi, tôi tiếp cận công nghệ số và ứng dụng AI trong học phần <strong>VNU1001</strong> với tinh thần kiểm soát trận đấu hoàn hảo, phối hợp đồng đội nhịp nhàng và luôn tạo nên những giải pháp đột phá nhưng đầy trách nhiệm.
+                        Cũng như phong cách thi đấu đầy nhãn quan chiến thuật của Lionel Messi, tôi tiếp cận công nghệ số và ứng dụng AI trong học phần <strong>VNU1001</strong> với tinh thần kiểm soát trận đấu hiệu quả, phối hợp đồng đội nhịp nhàng và luôn tạo nên những giải pháp đột phá nhưng đầy trách nhiệm.
                     </p>
                 </div>
                 
                 <!-- Quick Info Chips -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 pt-4 text-left">
-                    <div class="bg-white/90 p-3 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
                         <span class="text-xs text-slate-400 block font-bold">MÃ SINH VIÊN</span>
                         <span class="font-bold text-sm text-stadiumBlue">25051076</span>
                     </div>
-                    <div class="bg-white/90 p-3 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
                         <span class="text-xs text-slate-400 block font-bold">CHUYÊN NGÀNH</span>
-                        <span class="font-bold text-sm text-stadiumBlue text-ellipsis overflow-hidden">Kinh tế quốc tế</span>
+                        <span class="font-bold text-sm text-stadiumBlue">Kinh tế quốc tế</span>
                     </div>
-                    <div class="bg-white/90 p-3 rounded-xl border border-slate-200 shadow-sm col-span-2 sm:col-span-1">
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm col-span-2 sm:col-span-1">
                         <span class="text-xs text-slate-400 block font-bold">HỌC PHẦN</span>
                         <span class="font-bold text-xs text-stadiumBlue">Công nghệ số & AI</span>
                     </div>
@@ -184,7 +181,6 @@
 
                         <!-- Player Avatar (Styled like a FUT Card Art) -->
                         <div class="absolute top-14 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full border-4 border-championGold overflow-hidden bg-slate-800 shadow-inner z-10 group-hover:scale-105 transition-transform duration-300">
-                            <!-- In a production build, this would render "Hình 1.jpg" perfectly -->
                             <img src="Hình 1.jpg" alt="Bùi Phương Uyên Avatar" class="w-full h-full object-cover object-top">
                         </div>
 
@@ -237,7 +233,7 @@
     <section id="tactical-pitch" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
         
         <!-- Section Header -->
-        <div class="text-center space-y-3">
+        <div class="text-center space-y-3 bg-white/90 p-6 rounded-3xl border border-slate-200/80 shadow-lg max-w-3xl mx-auto">
             <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">SƠ ĐỒ CHIẾN THUẬT BÀI TẬP</h2>
             <div class="w-24 h-1.5 bg-gradient-to-r from-stadiumBlue to-championGold mx-auto rounded-full"></div>
             <p class="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
@@ -258,7 +254,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pt-6">
             
             <!-- Left Panel: Stylized Football Pitch Selection Map (5 cols) -->
-            <div class="lg:col-span-5 glass-card rounded-[2rem] p-6 border border-slate-200/60 shadow-lg relative">
+            <div class="lg:col-span-5 glass-card rounded-[2rem] p-6 border border-slate-200 shadow-xl relative">
                 <div class="absolute -top-3 left-6 bg-stadiumBlue text-white text-[10px] uppercase tracking-widest font-extrabold px-3 py-1 rounded-full">
                     Sân đấu kỹ năng
                 </div>
@@ -319,7 +315,7 @@
             </div>
 
             <!-- Right Panel: Detailed Exercise Viewer Card (7 cols) -->
-            <div id="match-viewer" class="lg:col-span-7 glass-card rounded-[2rem] p-6 lg:p-8 border border-slate-200/60 shadow-lg min-h-[500px] flex flex-col justify-between">
+            <div id="match-viewer" class="lg:col-span-7 glass-card rounded-[2rem] p-6 lg:p-8 border border-slate-200 shadow-xl min-h-[500px] flex flex-col justify-between">
                 
                 <!-- Display content dynamically loaded here -->
                 <div id="match-content" class="space-y-6">
@@ -347,17 +343,17 @@
     <!-- SECTION 3: THE GOLDEN TROPHY CABINET -->
     <section id="trophy" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
         <!-- Section Header -->
-        <div class="text-center space-y-3">
+        <div class="text-center space-y-3 bg-white/90 p-6 rounded-3xl border border-slate-200/80 shadow-lg max-w-3xl mx-auto">
             <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">BẢNG VÀNG THÀNH TÍCH</h2>
             <div class="w-24 h-1.5 bg-gradient-to-r from-stadiumBlue to-championGold mx-auto rounded-full"></div>
             <p class="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
-                Không chỉ là kết quả học tập, đây là những cột mốc rèn luyện kỷ luật thép và sự nhạy bén được đúc kết qua suốt chặng đường phát triển cá nhân.
+                Không chỉ là kết quả học tập, đây là những cột mốc rèn luyện kỷ luật và sự nhạy bén được đúc kết qua suốt chặng đường phát triển cá nhân.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Skill Trophy 1 -->
-            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-md hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
+            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-lg hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-championGold text-xl group-hover:scale-110 transition-transform">
                         <i class="fas fa-search"></i>
@@ -374,7 +370,7 @@
             </div>
 
             <!-- Skill Trophy 2 -->
-            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-md hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
+            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-lg hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-championGold text-xl group-hover:scale-110 transition-transform">
                         <i class="fas fa-brain"></i>
@@ -391,14 +387,14 @@
             </div>
 
             <!-- Skill Trophy 3 -->
-            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-md hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
+            <div class="glass-card p-6 rounded-2xl border border-slate-200 shadow-lg hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
                 <div class="space-y-4">
                     <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-championGold text-xl group-hover:scale-110 transition-transform">
                         <i class="fas fa-globe"></i>
                     </div>
                     <h3 class="font-bold text-lg text-slate-900">Vận hành Hợp tác số</h3>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        Chủ động dẫn dắt, phân phối công việc và kiểm soát chặt chẽ quy trình dữ liệu thực địa, mang lại chiến thắng bùng nổ cho dự án nhóm.
+                        Chủ động phối hợp, phân phối công việc và kiểm soát chặt chẽ quy trình dữ liệu thực địa, mang lại kết quả bùng nổ cho dự án nhóm.
                     </p>
                 </div>
                 <div class="pt-4 border-t border-slate-100 mt-4 flex justify-between items-center text-xs font-bold text-stadiumBlue">
@@ -410,7 +406,7 @@
     </section>
 
     <!-- SECTION 4: MY VALUES & PHILOSOPHY -->
-    <section class="py-16 px-4 bg-slate-900 text-white relative overflow-hidden">
+    <section class="py-16 px-4 bg-slate-900/95 text-white relative overflow-hidden">
         <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
             <i class="fas fa-quote-left text-4xl text-championGold opacity-40"></i>
             <blockquote class="font-serif italic text-xl sm:text-2xl leading-relaxed text-slate-200">
