@@ -7,10 +7,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- GSAP (GreenSock) for high-end animations -->
+    <!-- GSAP for smooth animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -25,8 +25,8 @@
                     colors: {
                         pastelPink: '#ffb7ca',
                         pastelPinkHover: '#ff9ebb',
-                        deepBlack: '#0a0a0d',
-                        slateBlack: '#121216',
+                        deepBlack: '#060608',
+                        slateBlack: '#0c0c10',
                     }
                 }
             }
@@ -42,7 +42,7 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0a0a0d;
+            background: #060608;
         }
         ::-webkit-scrollbar-thumb {
             background: #ffb7ca;
@@ -51,15 +51,21 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #ffffff;
         }
-        /* Maximum Glassmorphism (Extremely transparent but perfectly legible) */
+        /* Ultra Glassmorphism */
         .glass-card {
-            background: rgba(10, 10, 15, 0.15); /* 85% Transparent */
-            backdrop-filter: blur(24px); /* Strong blur to preserve contrast and legibility */
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 183, 202, 0.25);
-            box-shadow: 0 10px 40px -10px rgba(255, 183, 202, 0.2);
+            background: rgba(12, 12, 16, 0.2); 
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid rgba(255, 183, 202, 0.18);
+            box-shadow: 0 15px 50px -15px rgba(255, 183, 202, 0.08);
         }
-        /* Custom Cursor Trail (Pink Glow) */
+        /* Interactive neon borders on hover */
+        .glass-card-hover:hover {
+            border-color: rgba(255, 183, 202, 0.5);
+            box-shadow: 0 0 25px rgba(255, 183, 202, 0.15);
+            transition: all 0.3s ease;
+        }
+        /* Custom Cursor Trail */
         .cursor-trail {
             width: 20px;
             height: 20px;
@@ -71,12 +77,12 @@
             z-index: 9999;
             transition: width 0.2s, height 0.2s, border-color 0.2s;
             display: none;
-            box-shadow: 0 0 10px rgba(255, 183, 202, 0.5);
+            box-shadow: 0 0 10px rgba(255, 183, 202, 0.4);
         }
         @media (min-width: 1024px) {
             .cursor-trail { display: block; }
         }
-        /* FUT Card Tilt Effect container */
+        /* 3D FUT Card Setup */
         .fut-card-container {
             perspective: 1000px;
         }
@@ -84,8 +90,7 @@
             transform-style: preserve-3d;
             transition: transform 0.1s ease;
         }
-        
-        /* Equalizer Animation for Background Music */
+        /* Equalizer Animation */
         @keyframes eq {
             0%, 100% { height: 4px; }
             50% { height: 14px; }
@@ -147,8 +152,9 @@
             </a>
             <nav class="hidden md:flex items-center gap-8 font-semibold text-sm">
                 <a href="#about" class="text-slate-300 hover:text-pastelPink transition-colors">Về tôi</a>
+                <a href="#portfolio-goals" class="text-slate-300 hover:text-pastelPink transition-colors">Mục tiêu</a>
                 <a href="#tactical-pitch" class="text-slate-300 hover:text-pastelPink transition-colors">Sơ đồ chiến thuật</a>
-                <a href="#trophy" class="text-slate-300 hover:text-pastelPink transition-colors">Kỷ lục cá nhân</a>
+                <a href="#summary" class="text-slate-300 hover:text-pastelPink transition-colors">Tổng kết</a>
             </nav>
             <div class="flex items-center gap-4">
                 <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" 
@@ -164,8 +170,8 @@
     <section id="about" class="min-h-[85vh] flex items-center justify-center py-12 px-4 relative overflow-hidden">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
             
-            <!-- Left Side: Interactive Personal Introduction (Extreme Transparency) -->
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left bg-slateBlack/15 backdrop-blur-2xl p-8 rounded-3xl border border-pink-300/20 shadow-2xl">
+            <!-- Left Side: Interactive Personal Introduction -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left bg-slateBlack/25 backdrop-blur-3xl p-8 rounded-3xl border border-pink-300/20 shadow-2xl">
                 <div class="inline-flex items-center gap-2 bg-pink-950/40 border border-pink-300/30 shadow-sm px-4 py-1.5 rounded-full text-xs font-bold text-pastelPink">
                     <i class="fas fa-medal text-pastelPink"></i> KIẾN TẠO KỶ NGUYÊN SỐ
                 </div>
@@ -180,7 +186,7 @@
                         Chào mừng bạn đến với sân đấu số của tôi! Tôi là sinh viên chuyên ngành <strong>Kinh tế quốc tế</strong> tại trường <strong>Đại học Kinh tế - ĐHQGHN (UEB)</strong>.
                     </p>
                     <p>
-                        Lấy cảm hứng từ sắc hồng - đen huyền thoại của Inter Miami, câu lạc bộ hiện tại của huyền thoại Lionel Messi, tôi tiếp cận công nghệ số và ứng dụng AI trong học phần <strong>VNU1001</strong> với tinh thần kiểm soát trận đấu hiệu quả, phối hợp đồng đội nhịp nhàng và luôn tạo nên những giải pháp đột phá đầy trách nhiệm.
+                        Lấy cảm hứng từ sắc hồng - đen của Inter Miami, câu lạc bộ hiện tại của huyền thoại Lionel Messi, tôi tiếp cận công nghệ số và ứng dụng AI trong học phần <strong>VNU1001</strong> với tinh thần kiểm soát trận đấu hiệu quả, phối hợp đồng đội nhịp nhàng và luôn tạo nên những giải pháp đột phá đầy trách nhiệm.
                     </p>
                 </div>
                 
@@ -201,17 +207,14 @@
                 </div>
             </div>
 
-            <!-- Right Side: Beautiful 3D FUT Card (Inter Miami Style) -->
+            <!-- Right Side: Beautiful 3D FUT Card -->
             <div class="lg:col-span-5 flex justify-center fut-card-container">
                 <div class="fut-card w-[310px] h-[480px] relative bg-gradient-to-b from-pink-300 via-pink-400 to-slate-950 p-1.5 rounded-[2.5rem] shadow-2xl border-4 border-pink-300/40 cursor-pointer overflow-hidden group">
-                    <!-- Pink shine overlay on card -->
                     <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-pink-200/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                     
                     <div class="h-full w-full bg-[#0d0d11] rounded-[2.2rem] p-4 text-white flex flex-col justify-between relative overflow-hidden">
-                        <!-- Card background football pattern -->
                         <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-pink-300 via-slate-600 to-slate-955"></div>
                         
-                        <!-- Header with Rating and Position -->
                         <div class="flex justify-between items-start z-10">
                             <div class="text-center">
                                 <span class="block text-4xl font-extrabold text-pastelPink">99</span>
@@ -230,7 +233,6 @@
 
                         <!-- Card Footer with Stats -->
                         <div class="z-10 mt-36 space-y-2">
-                            <!-- Player Name -->
                             <div class="text-center">
                                 <h3 class="text-lg font-black tracking-wide text-pastelPink uppercase">P. UYÊN BÙI</h3>
                                 <p class="text-[9px] text-slate-300 font-bold uppercase tracking-widest">TACTICAL DIGITAL PLAYMAKER</p>
@@ -238,7 +240,6 @@
 
                             <hr class="border-white/10">
 
-                            <!-- FIFA Style Stats Table -->
                             <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs px-2 font-bold">
                                 <div class="flex justify-between">
                                     <span class="text-slate-400">TEC (Quản lý)</span>
@@ -273,31 +274,60 @@
         </div>
     </section>
 
+    <!-- SECTION: PORTFOLIO GOALS -->
+    <section id="portfolio-goals" class="py-16 px-4 max-w-7xl mx-auto space-y-8">
+        <div class="text-center space-y-3 bg-slateBlack/25 backdrop-blur-3xl p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
+            <h2 class="text-3xl font-black tracking-tight text-white uppercase">MỤC TIÊU PORTFOLIO KỸ THUẬT SỐ</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-pink-400 to-pink-300 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-xl bg-pink-950/40 border border-pink-300/20 flex items-center justify-center text-pastelPink text-xl">
+                    <i class="fas fa-boxes-stacked"></i>
+                </div>
+                <h3 class="text-lg font-black text-white">Hệ thống hóa năng lực</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Tổng hợp toàn diện kiến thức nền tảng và các kỹ năng số thực tiễn được tích lũy thông qua học phần Nhập môn Công nghệ số và Ứng dụng Trí tuệ nhân tạo (VNU1001).
+                </p>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-xl bg-pink-950/40 border border-pink-300/20 flex items-center justify-center text-pastelPink text-xl">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="text-lg font-black text-white">Định hướng tương lai</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Thiết lập bản lý lịch năng lực số chuyên nghiệp để bổ trợ cho ngành học Kinh tế Quốc tế và định hướng phát triển mảng Kinh doanh Quốc tế thời kỳ chuyển đổi số.
+                </p>
+            </div>
+            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-xl bg-pink-950/40 border border-pink-300/20 flex items-center justify-center text-pastelPink text-xl">
+                    <i class="fas fa-shield-cat"></i>
+                </div>
+                <h3 class="text-lg font-black text-white">Ứng dụng AI văn minh</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Minh chứng cho việc sử dụng trí tuệ nhân tạo có định hướng, có phương pháp và tuyệt đối tuân thủ các chuẩn mực liêm chính học thuật trong môi trường số.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- SECTION 2: THE INTERACTIVE TACTICAL BOARD (PORTFOLIO MATCHES) -->
     <section id="tactical-pitch" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
         
-        <!-- Section Header (Transparent Header box) -->
-        <div class="text-center space-y-3 bg-gradient-to-b from-[#121216]/20 to-[#08080a]/20 backdrop-blur-2xl p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">SƠ ĐỒ CHIẾN THUẬT BÀI TẬP</h2>
+        <!-- Section Header -->
+        <div class="text-center space-y-3 bg-slateBlack/25 backdrop-blur-3xl p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase">SƠ ĐỒ CHIẾN THUẬT BÀI TẬP</h2>
             <div class="w-24 h-1.5 bg-gradient-to-r from-pink-400 to-pink-300 mx-auto rounded-full"></div>
             <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base">
-                Mỗi bài học được định hình như một vị trí chiến thuật quan trọng trên sân cỏ, đảm nhận vai trò bứt phá và mang lại bàn thắng cho đội bóng tri thức.
+                Mỗi chặng đường học tập tương tự như một sơ đồ phối hợp bóng đá sắc sảo. Nhấp chọn các vị trí trên sân để xem chi tiết đầy đủ của từng bài làm.
             </p>
-        </div>
-
-        <!-- Google Drive Call to Action Button before exercises -->
-        <div class="flex justify-center pt-2">
-            <a href="https://drive.google.com/drive/folders/1kp9bNZ3dCIhV3ouvl9EoCXywh7wvi0lA?usp=drive_link" 
-               target="_blank" 
-               class="inline-flex items-center gap-3 bg-gradient-to-r from-pink-400 to-pink-300 hover:from-white hover:to-pink-100 hover:text-slate-950 text-slate-950 px-8 py-4 rounded-xl font-black tracking-wider text-sm shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all">
-                <i class="fab fa-google-drive text-lg"></i> XEM TOÀN BỘ BÀI TẬP TRÊN GOOGLE DRIVE
-            </a>
         </div>
 
         <!-- Interactive Board Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pt-6">
             
-            <!-- Left Panel: Stylized Football Pitch Selection Map (5 cols) -->
+            <!-- Left Panel: Football Pitch Selection Map (5 cols) -->
             <div class="lg:col-span-5 glass-card rounded-[2rem] p-6 border border-pink-300/20 shadow-2xl relative">
                 <div class="absolute -top-3 left-6 bg-gradient-to-r from-pink-400 to-pink-300 text-slate-950 text-[10px] uppercase tracking-widest font-extrabold px-3 py-1 rounded-full">
                     Sân đấu kỹ năng
@@ -307,50 +337,42 @@
                 
                 <!-- Soccer Pitch Visual Grid -->
                 <div class="aspect-[3/4] w-full bg-gradient-to-b from-[#0e0e12]/40 to-[#1e1015]/40 backdrop-blur-md rounded-2xl relative p-4 border border-pink-300/20 shadow-inner overflow-hidden">
-                    <!-- Pitch Grass lines -->
                     <div class="absolute inset-x-0 h-1/6 top-0 bg-pink-500/5"></div>
                     <div class="absolute inset-x-0 h-1/6 top-2/6 bg-pink-500/5"></div>
                     <div class="absolute inset-x-0 h-1/6 top-4/6 bg-pink-500/5"></div>
                     
-                    <!-- Sân Bóng Boundary & Penalty Area Markings -->
                     <div class="absolute inset-2 border border-pink-300/20 rounded-xl pointer-events-none"></div>
                     <div class="absolute inset-x-12 top-2 h-24 border-b border-x border-pink-300/20 rounded-b-xl pointer-events-none"></div>
                     <div class="absolute inset-x-12 bottom-2 h-24 border-t border-x border-pink-300/20 rounded-t-xl pointer-events-none"></div>
                     <div class="absolute top-1/2 left-2 right-2 border-t border-pink-300/10 pointer-events-none"></div>
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border border-pink-300/20 rounded-full pointer-events-none"></div>
 
-                    <!-- Interactive Player Positions (Week 1 - 6) -->
-                    <!-- 1. Week 1: Goalkeeper (Foundation) -->
+                    <!-- Interactive Player Positions -->
                     <button onclick="selectMatch(1)" id="pos-1" class="pitch-btn absolute bottom-6 left-1/2 -translate-x-1/2 bg-white hover:bg-pink-400 text-slate-950 p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-pink-300 hover:scale-110 active:scale-95 transition-all group z-10">
                         1
                         <span class="absolute -top-6 bg-slate-955 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap border border-pink-300/20">T1: File & Folder</span>
                     </button>
 
-                    <!-- 2. Week 6: Defender (Responsible AI / Ethics) -->
                     <button onclick="selectMatch(6)" id="pos-6" class="pitch-btn absolute bottom-32 left-1/2 -translate-x-1/2 bg-white hover:bg-pink-400 text-slate-950 p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-pink-300 hover:scale-110 active:scale-95 transition-all group z-10">
                         6
                         <span class="absolute -top-6 bg-slate-955 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap border border-pink-300/20">T6: Responsible AI</span>
                     </button>
 
-                    <!-- 3. Week 2: Midfielder Left (Academic Search) -->
                     <button onclick="selectMatch(2)" id="pos-2" class="pitch-btn absolute top-1/2 left-1/4 -translate-y-1/2 -translate-x-1/2 bg-white hover:bg-pink-400 text-slate-950 p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-pink-300 hover:scale-110 active:scale-95 transition-all group z-10">
                         2
                         <span class="absolute -top-6 bg-slate-955 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap border border-pink-300/20">T2: Academic Search</span>
                     </button>
 
-                    <!-- 4. Week 3: Midfielder Right (Prompt Engineering) -->
                     <button onclick="selectMatch(3)" id="pos-3" class="pitch-btn absolute top-1/2 left-3/4 -translate-y-1/2 -translate-x-1/2 bg-white hover:bg-pink-400 text-slate-950 p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-pink-300 hover:scale-110 active:scale-95 transition-all group z-10">
                         3
                         <span class="absolute -top-6 bg-slate-955 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap border border-pink-300/20">T3: Prompting</span>
                     </button>
 
-                    <!-- 5. Week 4: Winger Forward (Online Collaboration) -->
                     <button onclick="selectMatch(4)" id="pos-4" class="pitch-btn absolute top-1/3 left-1/2 -translate-x-1/2 bg-white hover:bg-pink-400 text-slate-950 p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-pink-300 hover:scale-110 active:scale-95 transition-all group z-10">
                         4
                         <span class="absolute -top-6 bg-slate-955 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap border border-pink-300/20">T4: Group Work</span>
                     </button>
 
-                    <!-- 6. Week 5: Center Forward (AI Content Creation) -->
                     <button onclick="selectMatch(5)" id="pos-5" class="pitch-btn absolute top-12 left-1/2 -translate-x-1/2 bg-white hover:bg-pink-400 text-slate-950 p-3 rounded-full w-12 h-12 flex items-center justify-center font-extrabold shadow-lg border-2 border-pink-300 hover:scale-110 active:scale-95 transition-all group z-10">
                         5
                         <span class="absolute -top-6 bg-slate-955 text-white text-[9px] px-2 py-0.5 rounded font-bold uppercase hidden group-hover:block whitespace-nowrap border border-pink-300/20">T5: AI Design</span>
@@ -358,12 +380,19 @@
                 </div>
             </div>
 
-            <!-- Right Panel: Detailed Exercise Viewer Card (7 cols - Extreme Transparency) -->
-            <div id="match-viewer" class="lg:col-span-7 glass-card rounded-[2rem] p-6 lg:p-8 border border-pink-300/20 shadow-2xl min-h-[500px] flex flex-col justify-between">
+            <!-- Right Panel: Detailed Exercise Viewer Card (7 cols - Subtabs Integration) -->
+            <div id="match-viewer" class="lg:col-span-7 glass-card rounded-[2rem] p-6 lg:p-8 border border-pink-300/20 shadow-2xl min-h-[620px] flex flex-col justify-between">
                 
+                <!-- Sub-tabs header for content navigation inside the card -->
+                <div class="flex border-b border-white/10 pb-2 mb-4 gap-2 text-xs sm:text-sm overflow-x-auto">
+                    <button onclick="switchSubTab('obj')" id="subtab-obj" class="px-3 py-1.5 rounded-lg font-bold uppercase border border-pink-300/20 transition-all bg-pink-400 text-slate-950">Mục tiêu & Bài học</button>
+                    <button onclick="switchSubTab('details')" id="subtab-details" class="px-3 py-1.5 rounded-lg font-bold uppercase border border-pink-300/20 text-slate-300 transition-all">Chi tiết đầy đủ</button>
+                    <button onclick="switchSubTab('sandbox')" id="subtab-sandbox" class="px-3 py-1.5 rounded-lg font-bold uppercase border border-pink-300/20 text-slate-300 transition-all">Sân tập tương tác</button>
+                </div>
+
                 <!-- Display content dynamically loaded here -->
-                <div id="match-content" class="space-y-6">
-                    <!-- Standard Welcome screen before selection -->
+                <div id="match-content" class="space-y-6 flex-grow overflow-y-auto max-h-[460px] pr-2">
+                    <!-- Loaded dynamically via script -->
                 </div>
 
                 <!-- Pagination navigation inside details card -->
@@ -384,85 +413,42 @@
         </div>
     </section>
 
-    <!-- SECTION 3: THE GOLDEN TROPHY CABINET -->
-    <section id="trophy" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
-        <!-- Section Header (Transparent Header box) -->
-        <div class="text-center space-y-3 bg-gradient-to-b from-[#121216]/20 to-[#08080a]/20 backdrop-blur-2xl p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">BẢNG VÀNG THÀNH TÍCH</h2>
+    <!-- SECTION 3: PORTFOLIO SUMMARY & REFLECTION -->
+    <section id="summary" class="py-16 px-4 max-w-7xl mx-auto space-y-12">
+        <div class="text-center space-y-3 bg-slateBlack/25 backdrop-blur-3xl p-6 rounded-3xl border border-pink-300/20 shadow-2xl max-w-3xl mx-auto">
+            <h2 class="text-3xl font-black tracking-tight text-white uppercase">TỔNG KẾT HÀNH TRÌNH HỌC TẬP</h2>
             <div class="w-24 h-1.5 bg-gradient-to-r from-pink-400 to-pink-300 mx-auto rounded-full"></div>
-            <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base">
-                Không chỉ là kết quả học tập, đây là những cột mốc rèn luyện kỷ luật và sự nhạy bén được đúc kết qua suốt chặng đường phát triển cá nhân.
-            </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Skill Trophy 1 -->
-            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 shadow-2xl hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-full bg-pink-950/40 flex items-center justify-center text-pastelPink text-xl group-hover:scale-110 transition-transform border border-pink-300/20">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3 class="font-bold text-lg text-white">Nhãn quan Nghiên cứu</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Phân tích có hệ thống các văn bản học thuật phức tạp về FTA, FDI, cấu trúc vốn doanh nghiệp và các xu hướng công nghệ thực tiễn chính xác.
-                    </p>
+            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-xl bg-pink-950/40 border border-pink-300/20 flex items-center justify-center text-pastelPink text-xl">
+                    <i class="fas fa-thumbs-up"></i>
                 </div>
-                <div class="pt-4 border-t border-white/10 mt-4 flex justify-between items-center text-xs font-bold text-pink-300">
-                    <span>ĐỘ CHÍNH XÁC</span>
-                    <span class="text-white">94%</span>
-                </div>
+                <h3 class="text-lg font-black text-white">Thuận lợi đạt được</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Sự hỗ trợ mạnh mẽ của các công cụ số trực quan như Canva, các mô hình ngôn ngữ thông minh thế hệ mới, cùng với lộ trình học phần VNU1001 vô cùng logic và dễ tiếp cận. Chương trình trang bị cấu trúc tư duy rõ ràng giúp liên hệ chặt chẽ lý thuyết Kinh tế quốc tế vào thực tiễn kỹ thuật số.
+                </p>
             </div>
-
-            <!-- Skill Trophy 2 -->
-            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 shadow-2xl hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-full bg-pink-950/40 flex items-center justify-center text-pastelPink text-xl group-hover:scale-110 transition-transform border border-pink-300/20">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3 class="font-bold text-lg text-white">Kiến tạo Prompt</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Nắm vững triệt để nguyên lý R-I-S-C giúp dẫn dắt các mô hình ngôn ngữ lớn (LLMs) hoạt động tối ưu, chính xác theo cấu trúc tư duy mong muốn.
-                    </p>
+            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-xl bg-pink-950/40 border border-pink-300/20 flex items-center justify-center text-pastelPink text-xl">
+                    <i class="fas fa-triangle-exclamation"></i>
                 </div>
-                <div class="pt-4 border-t border-white/10 mt-4 flex justify-between items-center text-xs font-bold text-pink-300">
-                    <span>HIỆU SUẤT TRUY VẤN</span>
-                    <span class="text-white">98%</span>
-                </div>
+                <h3 class="text-lg font-black text-white">Khó khăn vượt qua</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Độ nhiễu của nguồn thông tin học thuật trực tuyến cực lớn, đòi hỏi quá trình sàng lọc kiên nhẫn. Ngoài ra, việc thiết lập và tối ưu hóa hệ thống Prompt R-I-S-C theo cơ chế Chain-of-Thought (tư duy từng bước) tốn nhiều thời gian thử nghiệm thực tế trước khi AI phản hồi đạt chuẩn khoa học.
+                </p>
             </div>
-
-            <!-- Skill Trophy 3 -->
-            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 shadow-2xl hover:-translate-y-2 transition-transform duration-300 flex flex-col justify-between group">
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-full bg-pink-950/40 flex items-center justify-center text-pastelPink text-xl group-hover:scale-110 transition-transform border border-pink-300/20">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3 class="font-bold text-lg text-white">Vận hành Hợp tác số</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Chủ động phối hợp, phân phối công việc và kiểm soát chặt chẽ quy trình dữ liệu thực địa, mang lại kết quả bùng nổ cho dự án nhóm.
-                    </p>
+            <div class="glass-card p-6 rounded-2xl border border-pink-300/20 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-xl bg-pink-950/40 border border-pink-300/20 flex items-center justify-center text-pastelPink text-xl">
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
-                <div class="pt-4 border-t border-white/10 mt-4 flex justify-between items-center text-xs font-bold text-pink-300">
-                    <span>ĐỒNG ĐỘI & ĐỒNG BỘ</span>
-                    <span class="text-white">95%</span>
-                </div>
+                <h3 class="text-lg font-black text-white">Bài học sâu sắc</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    AI là một trợ lý, một người kiến tạo đường truyền vĩ đại, nhưng người ghi bàn và kiểm chứng bàn thắng bắt buộc phải là con người. Liêm chính số và tư duy độc lập chính là lá chắn thép vững chắc giúp duy trì giá trị cốt lõi bền vững cho bản thân trong kỷ nguyên tự động hóa.
+                </p>
             </div>
         </div>
-    </section>
-
-    <!-- SECTION 4: MY VALUES & PHILOSOPHY -->
-    <section class="py-16 px-4 bg-slate-950/90 text-white relative overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-            <i class="fas fa-quote-left text-4xl text-pastelPink opacity-40"></i>
-            <blockquote class="font-serif italic text-xl sm:text-2xl leading-relaxed text-slate-200">
-                "Tôi luôn bắt đầu một trận đấu mới bằng cách quên đi tất cả những bàn thắng của ngày hôm qua. Việc học tập trong kỷ nguyên số cũng như vậy - mỗi tuần mới là một thử thách mở, đòi hỏi sự tập trung tuyệt đối và không ngừng thích nghi."
-            </blockquote>
-            <p class="font-bold uppercase tracking-widest text-pastelPink text-xs sm:text-sm">
-                — Phỏng tác theo Triết lý thi đấu của Lionel Messi
-            </p>
-        </div>
-        <!-- Absolute decorative circles representing ball movement -->
-        <div class="absolute -top-12 -left-12 w-48 h-48 rounded-full bg-pink-500/10 blur-3xl"></div>
-        <div class="absolute -bottom-12 -right-12 w-48 h-48 rounded-full bg-pink-300/10 blur-3xl"></div>
     </section>
 
     <!-- FOOTER -->
@@ -487,89 +473,381 @@
 
     <!-- DATABASE OF EXERCISES CONTENT AND JS INTERACTION -->
     <script>
-        // Database contains real, beautiful Vietnamese textual representations of each week's assignments
+        // Highly Detailed Database matching actual submitted homework files
         const matchesData = {
             1: {
-                title: "Trận 1: Xây nền chắc chắn - Quản lý tệp tin chuyên nghiệp",
-                sub: "Hệ thống hóa thao tác cơ bản trên Windows",
-                role: "THỦ MÔN - KHU VỰC NỀN TẢNG",
-                desc: "Như một thủ môn rèn luyện các kỹ năng bắt bóng chuẩn xác, bài thực hành đầu tiên giúp tôi làm chủ cấu trúc lưu trữ dữ liệu và quy tắc đặt tên thư mục khoa học nhất.",
-                points: [
-                    "<strong>Xây dựng rào chắn vững chắc:</strong> Tạo lập thư mục <code>ThucHanh_BuiPhuongUyen</code> trên phân vùng ổ D nhanh chóng.",
-                    "<strong>Cú phát bóng chuẩn xác:</strong> Thực hành đổi tên, di chuyển tệp tin <code>GhiChuQuanTrong.txt</code> vào cấu trúc thư mục con <code>TaiLieu</code> hợp lý.",
-                    "<strong>Cứu thua xuất sắc:</strong> Trải nghiệm kỹ thuật khôi phục file đã xóa từ <code>Recycle Bin</code> về nguyên trạng thái ban đầu một cách an toàn."
-                ],
-                icon: "fa-folder-open",
-                color: "from-pink-500 to-slate-900"
+                role: "THỦ MÔN - NỀN TẢNG VỮNG CHẮC",
+                obj: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Mục tiêu bài làm</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Rèn luyện toàn diện kỹ năng quản lý tệp tin và tổ chức cấu trúc thư mục logic trên hệ điều hành Windows. Đây là bước đệm cơ bản giúp duy trì kỷ luật, sự khoa học trong tổ chức dữ liệu cá nhân trước khi bước vào các nhiệm vụ phân tích cao cấp.</p>
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bài học rút ra</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Cấu trúc cây thư mục giống như hàng phòng ngự của một đội bóng. Đặt tên rõ ràng theo quy chuẩn giúp tối ưu hóa 50% thời gian tìm kiếm dữ liệu và bảo đảm an toàn dữ liệu, tránh việc thất lạc tệp tin trong các dự án quy mô lớn.</p>
+                    </div>
+                `,
+                details: `
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <h4 class="text-base font-bold text-white uppercase mb-2">Quy trình thực hiện 12 bước đầy đủ:</h4>
+                        <ol class="space-y-3 list-decimal list-inside pl-1 leading-relaxed">
+                            <li><strong>Mở File Explorer:</strong> Nhấn tổ hợp phím <code>Windows + E</code> hoặc nhấp vào biểu tượng thư mục màu vàng trên thanh tác vụ.</li>
+                            <li><strong>Truy cập ổ đĩa/thư mục:</strong> Ở cột bên trái, nhấp vào <em>This PC</em>, sau đó nhấp đúp vào ổ đĩa không phải hệ thống (ví dụ: ổ D: hoặc E:).</li>
+                            <li><strong>Tạo thư mục mới:</strong> Nhấp chuột phải vào một khoảng trống -> chọn <em>New -> Folder</em>. Đặt tên thư mục chính xác là <code>ThucHanh_BuiPhuongUyen</code>. Nhấn Enter.</li>
+                            <li><strong>Vào thư mục vừa tạo:</strong> Nhấp đúp vào thư mục <code>ThucHanh_BuiPhuongUyen</code> vừa tạo để bắt đầu thao tác bên trong.</li>
+                            <li><strong>Tạo tệp tin văn bản:</strong> Nhấp chuột phải vào khoảng trống -> chọn <em>New -> Text Document</em>. Đặt tên là <code>GhiChu.txt</code>. Nhấn Enter.</li>
+                            <li><strong>Đổi tên tệp tin:</strong> Nhấp chuột phải vào tệp <code>GhiChu.txt</code> -> chọn biểu tượng <em>Rename</em>. Đổi tên thành <code>GhiChuQuanTrong.txt</code>. Nhấn Enter.</li>
+                            <li><strong>Tạo thư mục con:</strong> Trong thư mục chính, nhấp chuột phải -> chọn <em>New -> Folder</em>. Đặt tên thư mục con là <code>TaiLieu</code>.</li>
+                            <li><strong>Sao chép tệp tin (Copy & Paste):</strong> Nhấp chuột phải vào tệp <code>GhiChuQuanTrong.txt</code> -> chọn <em>Copy</em> (hoặc nhấn <code>Ctrl + C</code>). Nhấp đúp vào thư mục con <code>TaiLieu</code>, nhấp chuột phải vào khoảng trống bên trong -> chọn <em>Paste</em> (hoặc nhấn <code>Ctrl + V</code>) để sao chép.</li>
+                            <li><strong>Di chuyển tệp tin (Cut & Paste):</strong> Quay lại thư mục cha. Tạo một tệp văn bản mới tên là <code>DiChuyen.txt</code>. Nhấp chuột phải vào tệp -> chọn <em>Cut</em> (hoặc nhấn <code>Ctrl + X</code>). Nhấp đúp vào thư mục con <code>TaiLieu</code>, nhấp chuột phải vào khoảng trống -> chọn <em>Paste</em> (hoặc nhấn <code>Ctrl + V</code>).</li>
+                            <li><strong>Xóa tệp tin:</strong> Trong thư mục con <code>TaiLieu</code>, nhấp chuột phải vào tệp <code>GhiChuQuanTrong.txt</code> -> chọn biểu tượng <em>Delete</em> để di chuyển tệp vào Thùng rác.</li>
+                            <li><strong>Xóa vĩnh viễn:</strong> Chọn tệp <code>DiChuyen.txt</code> nằm trong thư mục <code>TaiLieu</code>, nhấn giữ phím <code>Shift</code> và nhấn phím <code>Delete</code>. Một cảnh báo sẽ hiện ra, nhấp chọn <em>Yes</em> để tệp bị xóa vĩnh viễn mà không qua Thùng rác.</li>
+                            <li><strong>Khôi phục từ Thùng rác:</strong> Tìm biểu tượng <em>Recycle Bin</em> trên màn hình nền, nhấp đúp để mở. Tìm tệp <code>GhiChuQuanTrong.txt</code> đã xóa, nhấp chuột phải vào nó và chọn <em>Restore</em> để tệp tự động khôi phục về vị trí thư mục <code>TaiLieu</code> ban đầu.</li>
+                        </ol>
+                    </div>
+                `,
+                sandbox: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Giả lập File Explorer Windows 11</h4>
+                        <p class="text-xs text-slate-400">Trải nghiệm tương tác mô phỏng cấu trúc thư mục thực hành của tôi:</p>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-white/10 font-mono text-xs space-y-3">
+                            <div class="flex items-center justify-between border-b border-white/10 pb-1.5 text-slate-400">
+                                <span>📁 Local Disk (D:) > ThucHanh_BuiPhuongUyen</span>
+                                <span class="text-pink-400 font-bold">12 Steps Active</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-amber-200">
+                                    <span>📁 TaiLieu</span>
+                                    <span class="text-[10px] text-slate-500">(Thư mục con)</span>
+                                </div>
+                                <div class="pl-6 space-y-1.5 text-slate-300">
+                                    <div class="flex items-center justify-between">
+                                        <span>📄 GhiChuQuanTrong.txt</span>
+                                        <button onclick="alert('Đã khôi phục thành công từ Recycle Bin!')" class="text-[9px] bg-pink-500/20 text-pastelPink px-1.5 py-0.5 rounded border border-pink-300/30">Restore</button>
+                                    </div>
+                                    <div class="flex items-center justify-between text-slate-500 line-through">
+                                        <span>📄 DiChuyen.txt</span>
+                                        <span class="text-[9px] text-red-400">Shift + Deleted</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between text-slate-300">
+                                    <span>📄 GhiChuQuanTrong.txt</span>
+                                    <span class="text-[9px] text-slate-400">Original Backup File</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
             },
             2: {
-                title: "Trận 2: Tầm nhìn chiến lược - Khai thác tri thức quốc tế",
-                sub: "Đánh giá chất lượng tài liệu FTA & FDI Việt Nam",
-                role: "TIỀN VỆ TRUNG TÂM - ĐIỀU PHỐI THÔNG TIN",
-                desc: "Quét góc nhìn toàn sân đấu để thực hiện một báo cáo học thuật chuyên sâu về tác động của các Hiệp định Thương mại tự do (FTA) đến thu hút vốn FDI vào Việt Nam.",
-                points: [
-                    "<strong>Nhãn quan sắc bén:</strong> Khai thác tối ưu nguồn dữ liệu uy tín từ Google Scholar, thư viện VNULic và các tạp chí Kinh tế đầu ngành.",
-                    "<strong>Đường chuyền chính xác:</strong> Sàng lọc kỹ lưỡng phương pháp nghiên cứu hàn lâm (Gravity Model, kiểm định Cronbach's Alpha) và loại bỏ các nguồn kém chất lượng.",
-                    "<strong>Bảng tổng hợp chiến thuật:</strong> Phân loại 12 nguồn tài liệu với thang điểm 5 rõ ràng, làm điểm tựa lý thuyết vững vàng cho chuyên ngành Kinh tế quốc tế."
-                ],
-                icon: "fa-graduation-cap",
-                color: "from-pink-400 to-[#121212]"
+                role: "TIỀN VỆ TRUNG TÂM - ĐIỀU PHỐI CHIẾN THUẬT",
+                obj: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Mục tiêu nghiên cứu</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Tìm kiếm, thẩm định nguồn tài liệu khoa học để phân tích chủ đề: <em>"Tác động của các Hiệp định Thương mại tự do (FTA) đến cơ hội thu hút vốn đầu tư trực tiếp từ nước ngoài (FDI) tại Việt Nam"</em>. Đây là chủ đề cốt lõi liên quan trực tiếp đến chuyên ngành Kinh tế quốc tế.</p>
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bài học kinh nghiệm</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Nhãn quan chiến thuật của một cầu thủ kiến tạo thể hiện qua việc đánh giá nguồn lực. Tôi học được cách không tin tưởng mù quáng vào các nguồn internet mở, mà tập trung kiểm chứng thông qua uy tín tác giả (chỉ số h-index, học vị PGS/Tiến sĩ), mức độ phản biện kín của tạp chí chuyên ngành (Taylor & Francis, NEU) và phương pháp định lượng thực chứng (Gravity Model, Cronbach's Alpha).</p>
+                    </div>
+                `,
+                details: `
+                    <div class="space-y-4 text-xs text-slate-300">
+                        <h4 class="text-sm font-bold text-white uppercase mb-2">Hệ thống từ khóa tìm kiếm tối ưu:</h4>
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="bg-white/5 p-2 rounded-lg border border-pink-300/10">
+                                <span class="font-bold text-pink-300 block mb-1">Tiếng Việt:</span>
+                                "Hiệp định thương mại tự do", "FDI vào Việt Nam", "Tác động của EVFTA/CPTPP đến FDI".
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-pink-300/10">
+                                <span class="font-bold text-pink-300 block mb-1">Tiếng Anh:</span>
+                                "Free Trade Agreements and FDI inflows", "Impact of FTA on foreign direct investment".
+                            </div>
+                        </div>
+
+                        <h4 class="text-sm font-bold text-white uppercase mb-2">Danh mục 12 tài liệu tham khảo chi tiết:</h4>
+                        <ul class="space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
+                            <li><strong>1.</strong> Hương, G.M. & Bùi, H.T. (2025). ‘Tác động của các hiệp định thương mại tự do đến dòng vốn đầu tư trực tiếp nước ngoài: Bằng chứng từ các hiệp định thế hệ mới ở Việt Nam’, <em>Business Perspective</em>, 22(3), pp. 1 - 13.</li>
+                            <li><strong>2.</strong> Duong, M., Holmes, M. J. & Strutt, A. (2020). ‘The impact of free trade agreements on FDI inflows: the case of Vietnam’, <em>Journal of the Asia Pacific Economy</em>, 26(3), pp. 483–505.</li>
+                            <li><strong>3.</strong> Nguyen, M. T. và Pham, T. H. H. (2026). ‘Promoting The Linkage Between Foreign Direct Investment And International Trade In The Context Of New Free Trade Agreements In Vietnam’, <em>Advances in Consumer Research</em>.</li>
+                            <li><strong>4.</strong> Nguyễn,T.T & Nguyễn,T.H & Nguyễn,T.D.(2025). ‘Phân tích ảnh hưởng của hội nhập kinh tế đến thu hút FDI: Vai trò trung gian của ngân hàng thương mại tại các nước ASEAN’. <em>Tạp chí Khoa học Đại học Thăng Long</em>, 4(2), pp. 31–48.</li>
+                            <li><strong>5.</strong> Hà,V.S & Nguyễn,T.T (2021). ‘Tác động của hiệp định đối tác toàn diện và tiến bộ xuyên Thái Bình Dương đến dịch chuyển dòng vốn đầu tư trực tiếp nước ngoài vào Việt Nam’. <em>Tạp chí Kinh tế và Phát triển</em>, 287, pp. 35–48.</li>
+                            <li><strong>6.</strong> Trần, T.B.T & Đồng, T.T.P & Phan, V.N (2021). ‘Thu hút FDI vào Việt Nam từ các Hiệp định thương mại tự do thế hệ mới: Cơ hội và thách thức’. <em>Tạp chí Công Thương</em>, 21.</li>
+                            <li><strong>7.</strong> Nguyễn, A. T. (2018) <em>Các hiệp định thương mại tự do thế hệ mới và tác động đối với nền kinh tế Việt Nam</em>. NXB ĐHQGHN.</li>
+                            <li><strong>8.</strong> Mattli, W. (1999). <em>The Logic of Regional Integration: Europe and Beyond</em>. Cambridge: Cambridge University Press.</li>
+                            <li><strong>9.</strong> Đặng, T.C., Đào, T.K.B. và Lương, Q.H. (2025) <em>The Impact of New Generation FTA on FDI Transfer into Vietnam: A Qualitative Analysis</em>. ResearchGate.</li>
+                            <li><strong>10.</strong> Lâm, T. Q. A. (2007) <em>Các hiệp định thương mại tự do và cơ hội thu hút FDI của Việt Nam trong thời gian tới</em>. Trung tâm WTO và Hội nhập - VCCI.</li>
+                            <li><strong>11.</strong> Nguyễn, A. T. (2026). <em>Đánh giá tác động của các hiệp định thương mại tự do thế hệ mới đến thu ngân sách nhà nước từ hoạt động xuất nhập khẩu</em>. Viện Chiến lược và Chính sách Tài chính - Bộ Tài chính.</li>
+                            <li><strong>12.</strong> Trần,X.H & Trần,H.A & Nguyễn,Q.A & Vũ, T.A & Vũ, N.D. Đại học Kinh tế Quốc Dân (2024). <em>Các hiệp định thương mại tự do thế hệ mới và tác động tới nền kinh tế Việt Nam</em>. Studocu.</li>
+                        </ul>
+                    </div>
+                `,
+                sandbox: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bộ thư viện học thuật trực quan</h4>
+                        <p class="text-xs text-slate-400">Tra cứu nhanh chất lượng một số bài nghiên cứu chính trong danh mục của tôi:</p>
+                        
+                        <div class="space-y-2">
+                            <select id="academic-select" onchange="updateAcademicDetails()" class="w-full bg-slate-900 border border-white/10 rounded-lg p-2 text-xs text-slate-300">
+                                <option value="1">Bài số 1: Hương & Bùi (2025) - Thế hệ mới ở Việt Nam</option>
+                                <option value="2">Bài số 2: Duong & Holmes (2020) - Taylor & Francis</option>
+                                <option value="5">Bài số 5: Hà & Nguyễn (2021) - Tạp chí Kinh tế & Phát triển</option>
+                                <option value="8">Bài số 8: Mattli (1999) - Giáo trình lý thuyết kinh điển</option>
+                            </select>
+                            
+                            <div id="academic-result" class="bg-slate-950 p-3 rounded-xl border border-pink-300/10 text-xs font-mono space-y-2">
+                                <!-- Loaded dynamically below -->
+                            </div>
+                        </div>
+                    </div>
+                `
             },
             3: {
-                title: "Trận 3: Đường chuyền kiến tạo - Prompt Engineering chính xác",
-                sub: "Vận dụng kỹ thuật R-I-S-C vào học tập đại học",
-                role: "TIỀN VỆ CÁNH - KẾT NỐI SÁNG TẠO",
-                desc: "Thiết kế các prompt phức tạp dẫn dắt AI hoạt động với độ chính xác tuyệt đối, biến mô hình ngôn ngữ lớn thành cộng sự ăn ý.",
-                points: [
-                    "<strong>Giao vai trò (Role):</strong> Thiết lập chân dung chuyên gia cho AI giúp bộ lọc từ vựng đạt độ chuyên nghiệp lý tưởng.",
-                    "<strong>Tư duy từng bước (Chain-of-Thought):</strong> Yêu cầu AI phân tích rạch ròi khái niệm 'Kinh tế số' và thiết kế quiz ôn tập phân hóa cao.",
-                    "<strong>Học thuyết R-I-S-C:</strong> Chắt lọc bộ quy tắc vàng (Role, Instruction, Specifics, Control) để nâng tầm chất lượng phản hồi từ AI."
-                ],
-                icon: "fa-robot",
-                color: "from-purple-500 to-pink-400"
+                role: "TIỀN VỆ CÁNH - ĐƯỜNG TRUYỀN KIẾN TẠO",
+                obj: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Mục tiêu bài làm</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Xây dựng, đối chiếu hiệu quả các phiên bản Prompt dựa trên bộ khung nguyên tắc R-I-S-C nhằm tối ưu hóa 3 tác vụ học tập thực tế trong trường đại học.</p>
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bài học đắt giá</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Một đường chuyền dọn cỗ cần lực bóng và độ cong hoàn hảo. Prompt cơ bản phản hồi chung chung, không đúng định dạng. Chỉ khi bổ sung định nghĩa vai trò rõ ràng (Role-play), hướng dẫn rành mạch (Instruction), số liệu bối cảnh (Specifics) và kiểm soát đầu ra (Control) thì AI mới bộc lộ tối đa sức mạnh của một cộng sự xuất sắc.</p>
+                    </div>
+                `,
+                details: `
+                    <div class="space-y-4 text-xs text-slate-300">
+                        <h4 class="text-sm font-bold text-white uppercase">Hệ thống các phiên bản Prompt trong báo cáo:</h4>
+                        
+                        <div class="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                            <div class="bg-white/5 p-2.5 rounded-lg border border-pink-300/10">
+                                <span class="font-bold text-pink-300 block">Tác vụ 1: Tóm tắt tài liệu học thuật</span>
+                                <p class="mt-1"><strong>Cơ bản:</strong> "Tóm tắt bài báo này cho tôi."</p>
+                                <p class="mt-1"><strong>Cải tiến:</strong> "Tóm tắt các nội dung chính của bài báo sau trong khoảng 300 từ, tập trung vào phương pháp nghiên cứu."</p>
+                                <p class="mt-1"><strong>Nâng cao (R-I-S-C):</strong> "Bạn là một trợ lý nghiên cứu khoa học. Hãy tóm tắt tài liệu sau theo cấu trúc: 1. Mục tiêu; 2. Giả thuyết; 3. Kết quả then chốt; 4. Hạn chế. Sử dụng ngôn ngữ chuyên nghiệp và trình bày dạng danh sách gạch đầu dòng."</p>
+                            </div>
+
+                            <div class="bg-white/5 p-2.5 rounded-lg border border-pink-300/10">
+                                <span class="font-bold text-pink-300 block">Tác vụ 2: Giải thích khái niệm kinh tế phức tạp ("Kinh tế số")</span>
+                                <p class="mt-1"><strong>Cơ bản:</strong> "Kinh tế số là gì?"</p>
+                                <p class="mt-1"><strong>Cải tiến:</strong> "Giải thích khái niệm 'Kinh tế số' kèm theo 2 ví dụ thực tế tại Việt Nam để sinh viên dễ hiểu."</p>
+                                <p class="mt-1"><strong>Nâng cao (Chain-of-Thought):</strong> "Hãy đóng vai một giáo sư kinh tế. Giải thích 'Kinh tế số' cho người mới bắt đầu. Sử dụng phương pháp Chain-of-Thought: Đầu tiên định nghĩa, sau đó phân tích các thành phần cốt lõi, cuối cùng là tác động của nó. Tránh dùng thuật toán phức tạp."</p>
+                            </div>
+
+                            <div class="bg-white/5 p-2.5 rounded-lg border border-pink-300/10">
+                                <span class="font-bold text-pink-300 block">Tác vụ 3: Tạo bộ câu hỏi ôn tập (Quiz)</span>
+                                <p class="mt-1"><strong>Cơ bản:</strong> "Tạo 5 câu hỏi trắc nghiệm về tài chính."</p>
+                                <p class="mt-1"><strong>Cải tiến:</strong> "Tạo 5 câu hỏi trắc nghiệm về chương 'Cấu trúc vốn' của Vinamilk, có đáp án và giải thích ngắn gọn."</p>
+                                <p class="mt-1"><strong>Nâng cao:</strong> "Bạn là chuyên gia thiết kế đề thi. Hãy tạo 5 câu hỏi trắc nghiệm mức độ Vận dụng cao về chủ đề Thuế và Cân bằng thị trường. Mỗi câu hỏi gồm 4 phương án. Sau mỗi câu hỏi, hãy giải thích logic chọn đáp án đúng dựa trên lý thuyết cung - cầu."</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                sandbox: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Hộp cát kiểm thử Prompt R-I-S-C</h4>
+                        <p class="text-xs text-slate-400">Chọn tác vụ và cấp độ để xem sự khác biệt rõ rệt của kết quả đầu ra từ AI:</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <select id="prompt-task" onchange="runPromptSandbox()" class="bg-slate-900 border border-white/10 rounded-lg p-2 text-slate-300">
+                                <option value="summary">Tác vụ: Tóm tắt bài báo</option>
+                                <option value="concept">Tác vụ: Giải thích Kinh tế số</option>
+                                <option value="quiz">Tác vụ: Tạo Quiz trắc nghiệm</option>
+                            </select>
+                            <select id="prompt-level" onchange="runPromptSandbox()" class="bg-slate-900 border border-white/10 rounded-lg p-2 text-slate-300">
+                                <option value="basic">Cơ bản (Sơ sài)</option>
+                                <option value="advanced">Nâng cao (R-I-S-C / CoT)</option>
+                            </select>
+                        </div>
+
+                        <div id="prompt-sandbox-result" class="bg-slate-950 p-3 rounded-xl border border-pink-300/10 text-xs font-mono space-y-2">
+                            <!-- Populated by javascript -->
+                        </div>
+                    </div>
+                `
             },
             4: {
-                title: "Trận 4: Phối hợp đồng đội - Vận hành dự án nhóm thực địa",
-                sub: "Nghiên cứu thói quen công nghệ của học sinh tiểu học Cầu Giấy",
                 role: "HỘ CÔNG - ĐỒNG ĐỘI TOÀN DIỆN",
-                desc: "Không một ai chiến thắng một mình. Quy trình làm việc nhóm chuyên nghiệp kết hợp cùng các công cụ quản lý trực tuyến đồng bộ tối đa.",
-                points: [
-                    "<strong>Kiểm soát nhịp độ trận đấu:</strong> Sử dụng Google Sheets để phân định nhiệm vụ, theo dõi sát sao tiến độ và deadline từng thành viên.",
-                    "<strong>Khảo sát thực địa sắc nét:</strong> Thiết kế bảng hỏi trực tiếp trên Canva và Google Forms để thu thập ý kiến khách quan.",
-                    "<strong>Lưu trữ đồng bộ:</strong> Thiết lập quy chuẩn đặt tên và biên tập video phỏng vấn thực địa trước khi đưa lên đám mây lưu trữ chung."
-                ],
-                icon: "fa-users",
-                color: "from-pink-300 to-slate-800"
+                obj: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Mục tiêu bài tập nhóm</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Xây dựng kỹ năng sử dụng tổ hợp công cụ trực tuyến đồng bộ để thiết lập, phối hợp và quản lý công việc dự án nhóm. Đề tài: <em>"Nghiên cứu về xu hướng sử dụng công nghệ của học sinh tiểu học tại khu vực nội thành (Cầu Giấy, Hà Nội)"</em>.</p>
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bài học thực tế</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Không ai có thể một mình giành chiến thắng. Vai trò điều phối số thể hiện qua việc kiểm soát nhật ký, quản lý tiến độ thời gian thực trên Google Sheets và quy chuẩn hóa các file âm thanh, hình ảnh, slide lên Google Drive. Kỹ năng giao tiếp minh bạch qua Zalo giúp giải quyết triệt để 90% sự trễ nải của các thành viên.</p>
+                    </div>
+                `,
+                details: `
+                    <div class="space-y-4 text-xs text-slate-300">
+                        <h4 class="text-sm font-bold text-white uppercase">Quy chuẩn 4 nhóm công cụ nhóm chúng tôi vận hành:</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-white/5 p-2 rounded-lg border border-pink-300/10">
+                                <strong class="text-pink-300">Quản lý (Google Sheets):</strong> Bảng "Phân công nhiệm vụ" chi tiết giúp theo dõi người phụ trách, tiến độ từng ngày và deadline.
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-pink-300/10">
+                                <strong class="text-pink-300">Soạn thảo (Canva & Forms):</strong> Thiết kế phiếu khảo sát giấy đẹp mắt, tạo Google Forms lấy khảo sát online rộng rãi.
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-pink-300/10">
+                                <strong class="text-pink-300">Lưu trữ (Google Drive):</strong> Quản lý tệp thô quay thực địa khoa học (frame ngang, đủ sáng, lọc âm và cắt bỏ phần thừa).
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-lg border border-pink-300/10">
+                                <strong class="text-pink-300">Giao tiếp (Zalo):</strong> Tạo kênh tương tác thời gian thực, cập nhật tiến độ công việc liên tục.
+                            </div>
+                        </div>
+
+                        <h4 class="text-sm font-bold text-white uppercase">Trích lục Nhật ký phân công nhiệm vụ chi tiết:</h4>
+                        <div class="max-h-[150px] overflow-y-auto border border-white/10 rounded-lg p-2 font-mono">
+                            <p class="text-pink-300 border-b border-white/10 pb-1 mb-1">STT - CÔNG VIỆC - NGƯỜI PHỤ TRÁCH - DEADLINE - TRẠNG THÁI</p>
+                            <p>1 - Soạn 10 câu cảm xúc + tâm lý - Ngô Anh Thư, Đinh Thị Minh Thảo - 21/03 - Hoàn thành ✅</p>
+                            <p>2 - Soạn 10 câu công nghệ - Nguyễn Hà Vy - 21/03 - Hoàn thành ✅</p>
+                            <p>3 - Soạn 10 câu mối quan hệ - Hồ Hà Phương - 21/03 - Hoàn thành ✅</p>
+                            <p class="font-bold text-pink-200">4 - Chốt chủ đề & Câu hỏi phỏng vấn - BÙI PHƯƠNG UYÊN - 21/03 - Hoàn thành ✅</p>
+                            <p>5 - Nội dung slide - Bùi Phương Uyên, Vũ Lý Cát Tâm, Trần Ngọc Thạch... - 25/03 - Hoàn thành ✅</p>
+                            <p>8 - Tạo Google Forms - Vũ Lý Cát Tâm - 22/03 - Hoàn thành ✅</p>
+                            <p>9 - Thiết kế khảo sát giấy - Vũ Lý Cát Tâm - 22/03 - Hoàn thành ✅</p>
+                            <p class="font-bold text-pink-200">12 - Quay video thực địa - BÙI PHƯƠNG UYÊN, Trương Thị Hà Giang - 23/03 - Hoàn thành ✅</p>
+                            <p class="font-bold text-pink-200">20 - Thiết kế Slide & Edit Video tổng hợp - BÙI PHƯƠNG UYÊN, Vũ Lý Cát Tâm... - 25/03 - Hoàn thành ✅</p>
+                        </div>
+                    </div>
+                `,
+                sandbox: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bảng Kanban Tiến độ Dự án thực địa</h4>
+                        <p class="text-xs text-slate-400">Xem tiến trình điều phối các công cụ trực tuyến của chúng tôi:</p>
+                        
+                        <div class="grid grid-cols-3 gap-2 text-[10px] font-mono text-center">
+                            <div class="bg-red-950/20 border border-red-500/30 p-2 rounded-lg">
+                                <span class="font-bold text-red-400 block mb-1">CẦN LÀM</span>
+                                <div class="bg-slate-900 p-1.5 rounded border border-white/5 text-left mb-1">In ấn khảo sát giấy</div>
+                                <div class="bg-slate-900 p-1.5 rounded border border-white/5 text-left">Chốt địa điểm Cầu Giấy</div>
+                            </div>
+                            <div class="bg-yellow-950/20 border border-yellow-500/30 p-2 rounded-lg">
+                                <span class="font-bold text-yellow-400 block mb-1">ĐANG LÀM</span>
+                                <div class="bg-slate-900 p-1.5 rounded border border-white/5 text-left mb-1">Dựng video phỏng vấn thô</div>
+                                <div class="bg-slate-900 p-1.5 rounded border border-white/5 text-left">Chạy khảo sát online</div>
+                            </div>
+                            <div class="bg-green-950/20 border border-green-500/30 p-2 rounded-lg">
+                                <span class="font-bold text-green-400 block mb-1">HOÀN THÀNH</span>
+                                <div class="bg-slate-900 p-1.5 rounded border border-white/5 text-left mb-1">Thiết kế bảng hỏi</div>
+                                <div class="bg-slate-900 p-1.5 rounded border border-pink-300/20 text-left text-pink-300">Lưu trữ Drive (B.P.Uyên)</div>
+                            </div>
+                        </div>
+                    </div>
+                `
             },
             5: {
-                title: "Trận 5: Cú sút quyết định - Thiết kế Infographic khí hậu",
-                sub: "Sự kết hợp hoàn hảo giữa thẩm mỹ cá nhân và AI",
-                role: "TIỀN ĐẠO CẮM - GHI BÀN ẤN TƯỢNG",
-                desc: "Tạo nên dấu ấn cá nhân rực rỡ với tác phẩm truyền thông trực quan sinh động về Biến đổi khí hậu & Đa dạng sinh học Việt Nam.",
-                points: [
-                    "<strong>Khởi động chớp nhoáng:</strong> Sử dụng AI để phác thảo ý tưởng bố cục, tiết kiệm đáng kể thời gian lên khung xương ban đầu.",
-                    "<strong>Sự can thiệp của con người:</strong> Trực tiếp kiểm chứng lại dữ liệu khoa học thực tế, hoàn toàn loại bỏ các lỗi 'ảo ảnh' của AI.",
-                    "<strong>Tinh chỉnh thẩm mỹ:</strong> Tự tay điều phối lại màu sắc và biên tập tiêu đề súc tích trên Canva để khơi dậy hành động từ cộng đồng."
-                ],
-                icon: "fa-palette",
-                color: "from-[#ff9ebb] to-black"
+                role: "TIỀN ĐẠO - CÚ SÚT QUYẾT ĐỊNH",
+                obj: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Mục tiêu sáng tạo</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Kết hợp thông minh giữa năng lực mỹ thuật cá nhân và sức mạnh của 3 công cụ AI (ChatGPT, 123RF/Bing Image Generator, Canva AI) nhằm xây dựng ấn phẩm Infographic trực quan sinh động về đề tài: <em>"Biến đổi khí hậu & Đa dạng sinh học Việt Nam: Thực trạng và Tác động"</em>.</p>
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bài học thực tế</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Cú sút quyết định luôn cần sự nhạy bén và độ chính xác của con người. Trí tuệ nhân tạo có thể vẽ nhanh bản nháp, lên cấu trúc văn bản nhanh gọn trong 15 phút, nhưng chỉ có tôi mới có thể kiểm chứng dữ liệu thực tế (nhiệt độ tăng 0.5-0.7 độ C, mực nước dâng 20cm), Việt hóa ngôn từ súc tích truyền tải thông điệp mạnh mẽ và tinh chỉnh màu sắc để tác phẩm đạt hiệu quả thẩm mỹ cao nhất.</p>
+                    </div>
+                `,
+                details: `
+                    <div class="space-y-4 text-xs text-slate-300">
+                        <h4 class="text-sm font-bold text-white uppercase">Cơ cấu 5 phần nội dung khoa học của Infographic:</h4>
+                        <div class="grid grid-cols-5 gap-2 text-[10px] text-center font-mono">
+                            <div class="bg-white/5 p-1.5 rounded border border-pink-300/10">
+                                <span class="text-pink-300 font-bold block">1. DỮ LIỆU</span>
+                                Nhiệt độ TB tăng 0.5-0.7°C, biển dâng 20cm, 39% ĐBSCL có nguy cơ ngập.
+                            </div>
+                            <div class="bg-white/5 p-1.5 rounded border border-pink-300/10">
+                                <span class="text-pink-300 font-bold block">2. HỆ THƯỜNG</span>
+                                Rừng ngập mặn thu hẹp do biển dâng; Rạn san hô bị tẩy trắng do nước nóng.
+                            </div>
+                            <div class="bg-white/5 p-1.5 rounded border border-pink-300/10">
+                                <span class="text-pink-300 font-bold block">3. TỔN THƯƠNG</span>
+                                Tê tê mất sinh cảnh; Voọc Chà Vá có nguy cơ tuyệt chủng vì sinh cảnh chia cắt.
+                            </div>
+                            <div class="bg-white/5 p-1.5 rounded border border-pink-300/10">
+                                <span class="text-pink-300 font-bold block">4. ĐỨNG BỜ VỰC</span>
+                                Rùa Hồ Gươm cận kề bờ tuyệt chủng; Xâm nhập mặn tàn phá ĐBSCL.
+                            </div>
+                            <div class="bg-white/5 p-1.5 rounded border border-pink-300/10">
+                                <span class="text-pink-300 font-bold block">5. HÀNH ĐỘNG</span>
+                                Trồng rừng, tiết kiệm năng lượng, kiên quyết nói KHÔNG với thịt thú rừng.
+                            </div>
+                        </div>
+
+                        <h4 class="text-sm font-bold text-white uppercase">Đóng góp sáng tạo của cá nhân tôi (Khác biệt hoàn toàn với AI):</h4>
+                        <ul class="space-y-2 leading-relaxed">
+                            <li>🎯 <strong>Thẩm định dữ liệu gốc:</strong> So sánh số liệu mực nước dâng và nhiệt độ với báo cáo khí hậu quốc gia, loại bỏ số liệu ảo của AI.</li>
+                            <li>✍️ <strong>Biên tập thông điệp:</strong> Viết lại toàn bộ tiêu đề thô ráp từ tiếng Anh sang tiếng Việt ngắn gọn, xúc tích, mang tính kêu gọi hành động cao.</li>
+                            <li>🎨 <strong>Thiết kế Layout thực tế:</strong> Tùy chỉnh màu sắc chủ đạo xanh lá/xanh dương, cấu trúc lưới thẳng thớm dễ đọc thay vì rập khuôn từ AI.</li>
+                        </ul>
+                    </div>
+                `,
+                sandbox: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Trình duyệt tương tác Infographic Việt Nam</h4>
+                        <p class="text-xs text-slate-400">Di chuột hoặc nhấp vào các phần dưới đây để tương tác với các dữ liệu thực tế do tôi biên tập:</p>
+                        
+                        <div class="space-y-2 text-xs">
+                            <div class="flex gap-2">
+                                <button onclick="selectClimatePart(1)" class="bg-slate-900 border border-pink-300/20 px-2 py-1 rounded text-pink-300 font-mono">Dữ liệu đỏ ⚠️</button>
+                                <button onclick="selectClimatePart(3)" class="bg-slate-900 border border-pink-300/20 px-2 py-1 rounded text-pink-300 font-mono">Voọc Chà Vá 🐒</button>
+                                <button onclick="selectClimatePart(5)" class="bg-slate-900 border border-pink-300/20 px-2 py-1 rounded text-pink-300 font-mono">Giải pháp 🌱</button>
+                            </div>
+                            <div id="climate-result" class="bg-slate-950 p-3 rounded-xl border border-pink-300/10 font-mono text-xs">
+                                Nhấp chọn nút phía trên để xem dữ liệu tương tác thực tế...
+                            </div>
+                        </div>
+                    </div>
+                `
             },
             6: {
-                title: "Trận 6: Luật chơi công bằng - AI có trách nhiệm",
-                sub: "Xây dựng 7 nguyên tắc đạo đức học thuật số",
-                role: "HẬU VỆ QUÉT - CHỐT CHẶN AN TOÀN & ĐẠO ĐỨC",
-                desc: "Một chiến thắng chân chính chỉ có được khi tôn trọng luật chơi. Đây là bộ cam kết đạo đức số của riêng tôi khi áp dụng công nghệ mới.",
-                points: [
-                    "<strong>Bám sát luật chơi quốc gia:</strong> Nghiên cứu thấu đáo Luật Trí tuệ nhân tạo 2025 và định hướng đào tạo học phần VNU1001.",
-                    "<strong>Minh bạch trong mọi đường bóng:</strong> Thực hành trích dẫn rõ ràng sự đóng góp của Claude khi lập đề cương nghiên cứu.",
-                    "<strong>Nguyên tắc đạo đức số:</strong> Ghi nhớ nằm lòng các quy chuẩn: Minh bạch, Trung thực, Tôn trọng bản quyền, Bảo mật dữ liệu và Trách nhiệm phản biện."
-                ],
-                icon: "fa-shield-halved",
-                color: "from-[#2c131a] to-pink-400"
+                role: "HẬU VỆ - CHỐT CHẶN AN TOÀN & ĐẠO ĐỨC",
+                obj: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Mục tiêu cam kết</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Nghiên cứu thấu đáo các văn bản pháp lý quốc gia và quy định của Đại học Quốc gia Hà Nội để thiết lập khung 7 nguyên tắc sử dụng AI văn minh, hoàn thành bài tập tổng hợp bằng Claude một cách minh bạch.</p>
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bài học thực tế</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">Chốt chặn vững chắc nhất của một hậu vệ là tinh thần Fairplay và tuân thủ luật chơi. Sử dụng AI để lập dàn ý là hợp lệ, nhưng để AI viết thay bài luận và mạo danh là vi phạm nghiêm trọng tính liêm chính học thuật. Bộ quy tắc 7 điểm cá nhân xây dựng sẽ là chiếc la bàn đạo đức giúp tôi vững bước trong môi trường số đại học.</p>
+                    </div>
+                `,
+                details: `
+                    <div class="space-y-4 text-xs text-slate-300">
+                        <h4 class="text-sm font-bold text-white uppercase">Phân tích Khung pháp lý & Chính sách ứng dụng AI trong học tập:</h4>
+                        <div class="grid grid-cols-2 gap-3 leading-relaxed">
+                            <div class="bg-white/5 p-2.5 rounded-lg border border-pink-300/10">
+                                <strong class="text-pink-300">Luật Trí tuệ nhân tạo 2025:</strong> (Thông qua tháng 12/2025, hiệu lực 1/3/2026), xác định AI là công cụ phục vụ, con người giữ quyền can thiệp và kiểm soát cao nhất. Các quyết định ứng dụng trong tuyển sinh, đánh giá kết quả được xếp vào mức độ rủi ro cao.
+                            </div>
+                            <div class="bg-white/5 p-2.5 rounded-lg border border-pink-300/10">
+                                <strong class="text-pink-300">Định hướng ĐHQGHN (VNU):</strong> Triển khai học phần bắt buộc VNU1001 "Nhập môn công nghệ số và ứng dụng trí tuệ nhân tạo" từ khóa tuyển sinh 2025 nhằm giáo dục đạo đức số, an toàn dữ liệu và liêm chính số cho sinh viên.
+                            </div>
+                        </div>
+
+                        <h4 class="text-sm font-bold text-white uppercase">Quy trình thực tế ứng dụng Claude (Đề tài Xuất khẩu SME):</h4>
+                        <p class="leading-relaxed">
+                            Tôi đã sử dụng 3 bước Prompt minh bạch nguồn để Claude xây dựng dàn ý 4 phần về thương mại điện tử xuyên biên giới của doanh nghiệp SME Việt Nam. Sau đó, tôi đối chiếu trực tiếp dữ liệu thô với báo cáo chính thức của <strong>VECOM</strong> và <strong>Amazon Global Selling</strong>, loại bỏ các ước tính thiếu chính xác của AI và viết lại toàn bộ nội dung theo văn phong cá nhân kèm lời cảm ơn ghi rõ mức độ đóng góp của Claude.
+                        </p>
+                    </div>
+                `,
+                sandbox: `
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-black text-pink-300 uppercase tracking-widest">Bộ trắc nghiệm Đạo đức số cá nhân</h4>
+                        <p class="text-xs text-slate-400">Chọn trạng thái để kiểm tra mức độ thấu hiểu của bạn về 7 nguyên tắc đạo đức học thuật:</p>
+                        
+                        <div class="space-y-2">
+                            <div class="flex flex-col gap-1 text-xs">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" id="eth-chk-1" onclick="calcEthScore()" class="rounded text-pink-500 bg-slate-900 border-white/10">
+                                    <span>Tự nguyện khai báo việc dùng Claude để lập dàn ý.</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" id="eth-chk-2" onclick="calcEthScore()" class="rounded text-pink-500 bg-slate-900 border-white/10">
+                                    <span>Tự mình lập luận và viết lại báo cáo theo văn phong cá nhân.</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" id="eth-chk-3" onclick="calcEthScore()" class="rounded text-pink-500 bg-slate-900 border-white/10">
+                                    <span>Không copy-paste nguyên văn bài viết từ ChatGPT.</span>
+                                </label>
+                            </div>
+                            <div id="eth-score-display" class="bg-slate-950 p-2.5 rounded-xl border border-pink-300/10 font-mono text-xs text-center text-pastelPink">
+                                Điểm tuân thủ liêm chính số: 0% ❌
+                            </div>
+                        </div>
+                    </div>
+                `
             }
         };
 
         let currentMatchId = 1;
+        let currentSubTab = 'obj';
 
         // Custom Cursor Trail tracking movement (Pink Theme)
         const cursor = document.getElementById('cursor');
@@ -639,49 +917,50 @@
             }
         }
 
-        // Main rendering function to load selected match detailed assignment reports
+        // Handle navigation of the sub-tabs inside the Details Card
+        function switchSubTab(tabName) {
+            currentSubTab = tabName;
+            document.querySelectorAll('[id^="subtab-"]').forEach(btn => {
+                btn.classList.remove('bg-pink-400', 'text-slate-950');
+                btn.classList.add('text-slate-300');
+            });
+            const activeBtn = document.getElementById(`subtab-${tabName}`);
+            activeBtn.classList.remove('text-slate-300');
+            activeBtn.classList.add('bg-pink-400', 'text-slate-950');
+            
+            renderSelectedContent();
+        }
+
+        // Renders the precise text and widget based on selected match and sub-tab
+        function renderSelectedContent() {
+            const viewer = document.getElementById('match-content');
+            const match = matchesData[currentMatchId];
+            
+            gsap.to(viewer, { opacity: 0, duration: 0.15, onComplete: () => {
+                if (currentSubTab === 'obj') {
+                    viewer.innerHTML = match.obj;
+                } else if (currentSubTab === 'details') {
+                    viewer.innerHTML = match.details;
+                } else if (currentSubTab === 'sandbox') {
+                    viewer.innerHTML = match.sandbox;
+                    // Trigger initialization scripts for widgets if needed
+                    if (currentMatchId === 2) updateAcademicDetails();
+                    if (currentMatchId === 3) runPromptSandbox();
+                    if (currentMatchId === 5) selectClimatePart(1);
+                    if (currentMatchId === 6) calcEthScore();
+                }
+                gsap.to(viewer, { opacity: 1, duration: 0.15 });
+            }});
+        }
+
+        // Main rendering function to load selected match
         function selectMatch(id) {
             currentMatchId = id;
             updatePitchHighlight(id);
+            document.getElementById('match-indicator').innerText = `TRẬN ${id} / 6`;
             
-            const match = matchesData[id];
-            const viewer = document.getElementById('match-content');
-            
-            // GSAP quick transition
-            gsap.to(viewer, { opacity: 0, y: 15, duration: 0.2, onComplete: () => {
-                viewer.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr ${match.color} text-white flex items-center justify-center text-xl shadow-md border border-pink-300/10">
-                                <i class="fas ${match.icon}"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs font-black tracking-widest text-pink-300 uppercase block">${match.role}</span>
-                                <h3 class="text-xl sm:text-2xl font-black text-white leading-tight">${match.title}</h3>
-                            </div>
-                        </div>
-
-                        <p class="text-slate-300 font-medium italic text-sm sm:text-base border-l-4 border-pink-400 pl-4">
-                            "${match.desc}"
-                        </p>
-
-                        <div class="space-y-3 pt-2">
-                            <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest">Nội dung tự làm chi tiết</h4>
-                            <ul class="space-y-4">
-                                ${match.points.map(point => `
-                                    <li class="flex items-start gap-3 text-sm sm:text-base text-slate-300 leading-relaxed">
-                                        <span class="text-pink-400 mt-1.5 text-xs"><i class="fas fa-circle-check"></i></span>
-                                        <span>${point}</span>
-                                    </li>
-                                `).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                `;
-                
-                document.getElementById('match-indicator').innerText = `TRẬN ${id} / 6`;
-                gsap.to(viewer, { opacity: 1, y: 0, duration: 0.3 });
-            }});
+            // Default back to first sub-tab when switching matches
+            switchSubTab('obj');
         }
 
         function prevMatch() {
@@ -696,6 +975,152 @@
             selectMatch(id);
         }
 
+        // INTERACTIVE WIDGET SCRIPTS FOR EACH WEEK
+        // Week 2: Academic Papers
+        function updateAcademicDetails() {
+            const val = document.getElementById('academic-select').value;
+            const res = document.getElementById('academic-result');
+            if (val === "1") {
+                res.innerHTML = `
+                    <p class="text-pink-300 font-bold">📄 Tác động của FTA thế hệ mới đến vốn FDI vào VN</p>
+                    <p class="mt-1"><strong>Tác giả:</strong> PGS.TS Hương G.M. (2025)</p>
+                    <p><strong>Cơ quan xuất bản:</strong> Business Perspective</p>
+                    <p><strong>Phương pháp:</strong> Định lượng thông qua Cronbach's Alpha, phân tích nhân tố khám phá (EFA) & hồi quy tuyến tính.</p>
+                    <p class="text-slate-400 mt-1">Đánh giá độ tin cậy: Cực kỳ cao, đã phản biện kín nghiêm ngặt.</p>
+                `;
+            } else if (val === "2") {
+                res.innerHTML = `
+                    <p class="text-pink-300 font-bold">📄 The impact of free trade agreements on FDI inflows</p>
+                    <p class="mt-1"><strong>Tác giả:</strong> Duong, M. & Holmes, M. J. (2020)</p>
+                    <p><strong>Cơ quan xuất bản:</strong> Taylor & Francis (Tạp chí quốc tế uy tín)</p>
+                    <p><strong>Phương pháp:</strong> Định lượng hồi quy, sử dụng Mô hình Trọng lực (Gravity Model), hồi quy dữ liệu bảng phức tạp.</p>
+                    <p class="text-slate-400 mt-1">Đánh giá độ tin cậy: Đạt chất lượng quốc tế tối ưu.</p>
+                `;
+            } else if (val === "5") {
+                res.innerHTML = `
+                    <p class="text-pink-300 font-bold">📄 Tác động của hiệp định CPTPP đến dịch chuyển vốn FDI vào VN</p>
+                    <p class="mt-1"><strong>Tác giả:</strong> Hà V.S & Nguyễn T.T (2021)</p>
+                    <p><strong>Cơ quan xuất bản:</strong> Tạp chí Kinh tế và Phát triển (NEU)</p>
+                    <p><strong>Phương pháp:</strong> Kinh tế lượng định lượng, thu thập dữ liệu thứ cấp từ 2010 - 2020.</p>
+                    <p class="text-slate-400 mt-1">Đánh giá độ tin cậy: Cao, uy tín đầu ngành trong nước.</p>
+                `;
+            } else if (val === "8") {
+                res.innerHTML = `
+                    <p class="text-pink-300 font-bold">📄 The Logic of Regional Integration: Europe and Beyond</p>
+                    <p class="mt-1"><strong>Tác giả:</strong> Walter Mattli (1999)</p>
+                    <p><strong>Cơ quan xuất bản:</strong> Oxford University Press</p>
+                    <p><strong>Phương pháp:</strong> Nghiên cứu định tính, so sánh lịch sử, xây dựng mô hình lý thuyết kinh điển.</p>
+                    <p class="text-slate-400 mt-1">Đánh giá độ tin cậy: Nền tảng lý thuyết tối ưu để đối chiếu.</p>
+                `;
+            }
+        }
+
+        // Week 3: Prompt Sandbox
+        function runPromptSandbox() {
+            const task = document.getElementById('prompt-task').value;
+            const lvl = document.getElementById('prompt-level').value;
+            const res = document.getElementById('prompt-sandbox-result');
+            
+            if (task === "summary") {
+                if (lvl === "basic") {
+                    res.innerHTML = `
+                        <p class="text-red-400"><strong>[Prompt cơ bản]</strong> "Tóm tắt bài báo này cho tôi."</p>
+                        <p class="text-slate-400 mt-1"><strong>[AI phản hồi]:</strong> "Bài báo này nói về tác động của FTA thế hệ mới đến FDI của Việt Nam. Tóm lại là FTA giúp thu hút nhiều vốn đầu tư hơn vào kinh tế..."</p>
+                        <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded block mt-2 w-max">Đánh giá: Sơ sài, thiếu số liệu, không có phương pháp.</span>
+                    `;
+                } else {
+                    res.innerHTML = `
+                        <p class="text-green-400"><strong>[Prompt R-I-S-C]</strong> "Bạn là trợ lý nghiên cứu khoa học. Hãy tóm tắt bài báo sau theo cấu trúc: 1. Mục tiêu; 2. Giả thuyết; 3. Kết quả; 4. Hạn chế..."</p>
+                        <p class="text-slate-300 mt-1"><strong>[AI phản hồi]:</strong></p>
+                        <p class="text-slate-400">- <strong>Mục tiêu:</strong> Đánh giá tác động định lượng của CPTPP, EVFTA đến thu hút vốn FDI vào VN.<br>- <strong>Giả thuyết:</strong> Có mối liên hệ tuyến tính thuận chiều giữa quy mô FTA thế hệ mới và tỷ lệ vốn giải ngân.<br>- <strong>Kết quả:</strong> Tăng trưởng 15% dòng vốn FDI sau 2 năm thực thi EVFTA...</p>
+                        <span class="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded block mt-2 w-max">Đánh giá: Cấu trúc hoàn hảo, thông tin sắc nét, tính hàn lâm cao.</span>
+                    `;
+                }
+            } else if (task === "concept") {
+                if (lvl === "basic") {
+                    res.innerHTML = `
+                        <p class="text-red-400"><strong>[Prompt cơ bản]</strong> "Kinh tế số là gì?"</p>
+                        <p class="text-slate-400 mt-1"><strong>[AI phản hồi]:</strong> "Kinh tế số là tất cả các hoạt động kinh tế có sử dụng công nghệ số, internet, phần mềm và các kết nối mạng..."</p>
+                        <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded block mt-2 w-max">Đánh giá: Định nghĩa lý thuyết khô khan, sinh viên khó hình dung.</span>
+                    `;
+                } else {
+                    res.innerHTML = `
+                        <p class="text-green-400"><strong>[Prompt Chain-of-Thought]</strong> "Đóng vai giáo sư. Giải thích Kinh tế số cho người mới. Sử dụng Chain-of-Thought: Định nghĩa -> Thành phần cốt lõi -> Tác động..."</p>
+                        <p class="text-slate-300 mt-1"><strong>[AI phản hồi]:</strong></p>
+                        <p class="text-slate-400">1. <strong>Định nghĩa đơn giản:</strong> Là nền kinh tế vận hành dựa trên các nút bấm internet của bạn.<br>2. <strong>Thành phần cốt lõi:</strong> Hạ tầng internet, AI & Dữ liệu lớn (Big Data), và các Nền tảng số (như Shopee, Grab).<br>3. <strong>Ví dụ Việt Nam:</strong> App đặt xe Grab thay đổi hoàn toàn cách chúng ta đi lại; Ví điện tử MoMo thay đổi cách trả tiền ăn sáng của bạn...</p>
+                        <span class="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded block mt-2 w-max">Đánh giá: Vô cùng sinh động, dễ hiểu, đạt chuẩn mực sư phạm.</span>
+                    `;
+                }
+            } else if (task === "quiz") {
+                if (lvl === "basic") {
+                    res.innerHTML = `
+                        <p class="text-red-400"><strong>[Prompt cơ bản]</strong> "Tạo 5 câu trắc nghiệm về tài chính."</p>
+                        <p class="text-slate-400 mt-1"><strong>[AI phản hồi]:</strong> "Câu 1: Tiền là gì? A. Vật ngang giá chung, B. Giấy lộn... Đáp án: A."</p>
+                        <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded block mt-2 w-max">Đánh giá: Câu hỏi quá đơn giản, không phân hóa được tư duy.</span>
+                    `;
+                } else {
+                    res.innerHTML = `
+                        <p class="text-green-400"><strong>[Prompt Nâng cao]</strong> "Bạn là chuyên gia thiết kế đề thi. Hãy tạo 5 câu hỏi trắc nghiệm mức độ Vận dụng cao chủ đề Thuế và Cân bằng thị trường. Giải thích logic cung - cầu..."</p>
+                        <p class="text-slate-300 mt-1"><strong>[AI phản hồi]:</strong></p>
+                        <p class="text-slate-400"><strong>Câu 1:</strong> Khi chính phủ đánh thuế t đồng/sản phẩm lên nhà sản xuất trong một thị trường có cầu hoàn toàn co giãn và cung co giãn có hạn, ai gánh chịu thuế?<br>A. Nhà sản xuất gánh chịu toàn bộ.<br>B. Người tiêu dùng gánh chịu toàn bộ...<br><strong>Giải thích logic:</strong> Vì cầu hoàn toàn co giãn, người tiêu dùng cực kỳ nhạy cảm với giá. Nhà sản xuất không thể tăng giá nên bắt buộc phải gánh chịu toàn bộ khoản thuế...</p>
+                        <span class="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded block mt-2 w-max">Đánh giá: Tính phân loại học thuật đỉnh cao, phục vụ ôn tập xuất sắc.</span>
+                    `;
+                }
+            }
+        }
+
+        // Week 5: Infographic Selector
+        function selectClimatePart(id) {
+            const res = document.getElementById('climate-result');
+            if (id === 1) {
+                res.innerHTML = `
+                    <p class="text-red-400 font-bold">⚠️ Mục 1: Dữ liệu đỏ khí hậu Việt Nam</p>
+                    <p class="mt-1"><strong>Nhiệt độ:</strong> Trung bình năm tăng 0.5 - 0.7°C trong vòng 50 năm qua.</p>
+                    <p><strong>Nước biển dâng:</strong> Đo đạc thực tế dâng khoảng 20cm tại vùng ven biển.</p>
+                    <p class="text-pink-300"><strong>Đóng góp cá nhân:</strong> Kiểm chứng chéo với tài liệu khí hậu quốc gia của Bộ Tài nguyên Môi trường để bảo đảm tính chuẩn xác khoa học.</p>
+                `;
+            } else if (id === 3) {
+                res.innerHTML = `
+                    <p class="text-pink-300 font-bold">🐒 Mục 3: Hệ sinh thái tổn thương & Động vật hoang dã</p>
+                    <p class="mt-1"><strong>Tê tê (Pangolin):</strong> Bị thu hẹp sinh cảnh nghiêm trọng do biến đổi thảm thực vật rừng.</p>
+                    <p><strong>Voọc Chà Vá chân nâu:</strong> Đối mặt với tình trạng rụng chết của các loài cây làm nguồn thức ăn chính và sinh cảnh sống bị chia cắt bởi hạ tầng giao thông.</p>
+                    <p class="text-pink-300"><strong>Đóng góp cá nhân:</strong> Biên tập lại từ ngữ khô khan của AI, đưa các tên gọi loài đặc hữu Việt Nam vào Infographic rõ ràng.</p>
+                `;
+            } else if (id === 5) {
+                res.innerHTML = `
+                    <p class="text-green-400 font-bold">🌱 Mục 5: Hành động thiết thực từ chúng ta</p>
+                    <p class="mt-1">1. Phục hồi, trồng thêm rừng ngập mặn chắn sóng ven biển.</p>
+                    <p>2. Chuyển hướng sử dụng năng lượng tiết kiệm, các thiết bị điện dán nhãn xanh.</p>
+                    <p>3. Nói KHÔNG tuyệt đối với nạn săn bắn, tàng trữ và tiêu thụ trái phép động vật hoang dã.</p>
+                    <p class="text-pink-300"><strong>Đóng góp cá nhân:</strong> Việt hóa các khẩu hiệu tiếng Anh trên template Canva ban đầu thành thông điệp tiếng Việt súc tích, mang tính hiệu triệu cao.</p>
+                `;
+            }
+        }
+
+        // Week 6: Ethical Test
+        function calcEthScore() {
+            const chk1 = document.getElementById('eth-chk-1').checked;
+            const chk2 = document.getElementById('eth-chk-2').checked;
+            const chk3 = document.getElementById('eth-chk-3').checked;
+            const disp = document.getElementById('eth-score-display');
+            
+            let count = 0;
+            if (chk1) count += 33;
+            if (chk2) count += 33;
+            if (chk3) count += 34;
+            
+            if (count === 0) {
+                disp.innerHTML = `Điểm tuân thủ liêm chính số: 0% ❌ (Vui lòng chọn tích kiểm tra)`;
+                disp.className = "bg-slate-950 p-2.5 rounded-xl border border-red-500/30 font-mono text-xs text-center text-red-400";
+            } else if (count < 100) {
+                disp.innerHTML = `Điểm tuân thủ liêm chính số: ${count}% ⚠️ (Có nỗ lực nhưng chưa đạt chuẩn)`;
+                disp.className = "bg-slate-950 p-2.5 rounded-xl border border-yellow-500/30 font-mono text-xs text-center text-yellow-400";
+            } else {
+                disp.innerHTML = `Điểm tuân thủ liêm chính số: 100% 🏆 (Đạt chuẩn đạo đức học thuật số tối ưu)`;
+                disp.className = "bg-slate-950 p-2.5 rounded-xl border border-green-500/30 font-mono text-xs text-center text-green-400";
+            }
+        }
+
         // Initialize the website on Match Day 1 automatically
         window.addEventListener('DOMContentLoaded', () => {
             selectMatch(1);
@@ -703,6 +1128,15 @@
             // Subtle scroll reveals using GSAP
             gsap.registerPlugin(ScrollTrigger);
             gsap.from("#about", { opacity: 0, y: 50, duration: 1 });
+            gsap.from("#portfolio-goals", {
+                scrollTrigger: {
+                    trigger: "#portfolio-goals",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1
+            });
             gsap.from("#tactical-pitch", {
                 scrollTrigger: {
                     trigger: "#tactical-pitch",
@@ -712,9 +1146,9 @@
                 y: 50,
                 duration: 1
             });
-            gsap.from("#trophy", {
+            gsap.from("#summary", {
                 scrollTrigger: {
-                    trigger: "#trophy",
+                    trigger: "#summary",
                     start: "top 80%",
                 },
                 opacity: 0,
